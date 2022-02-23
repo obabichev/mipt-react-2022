@@ -5,6 +5,8 @@ import {ProductCard} from './ProductCard/ProductCard'
 import {ProductList} from 'utils/product-list'
 
 
+import {ProductCard} from './ProductCard/ProductCard'
+
 export const ProductPage = () => {
     let productList = new ProductList();
     const params = useParams();
