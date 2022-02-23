@@ -2,6 +2,8 @@ import React from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import sample from "../mock/products-sample.json";
 
+import {ProductCard} from './ProductCard/ProductCard'
+
 export const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate()
@@ -14,16 +16,5 @@ export const ProductPage = () => {
         </div>
     }
 
-    return <div>
-        <div>
-            <b>
-                {product.title}
-            </b>
-        </div>
-        <div>
-            {product.description}
-        </div>
-        <img height={200} src={product.images[0]}/>
-        <button onClick={() => navigate("/products")}>Back</button>
-    </div>
+    return <ProductCard product={product}/>
 }
