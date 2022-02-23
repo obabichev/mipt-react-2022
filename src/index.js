@@ -4,6 +4,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import AppRouter from "./components/AppRouter";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 ReactDOM.render(
     <AppRouter/>,
     document.getElementById('root')
