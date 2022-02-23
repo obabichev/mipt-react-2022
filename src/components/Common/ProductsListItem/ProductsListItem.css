@@ -16,3 +16,12 @@
 .products-list-item__title>a:hover {
     color: orangered;
 }
+
+
+/*
+Dirty hack, I will appreciate suggestions here
+Adding align-items-end class didn't seem to work for some reason
+*/
+.products-list-item bottom-selloptions {
+    margin-top: 10% !important;
+}

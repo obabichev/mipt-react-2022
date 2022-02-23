@@ -3,18 +3,19 @@ import {Link} from "react-router-dom";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import {ProductSellOptions} from 'components/Common/ProductSellOptions/ProductSellOptions'
-import {ProductRating} from 'components/Common/ProductRating/ProductRating'
+import {ProductSellOptions} from '../ProductSellOptions/ProductSellOptions'
+import {ProductRating} from '../ProductRating/ProductRating'
 
 import './ProductsListItem.css'
 
 
-export const ProductsListItem = ({product}) => {
+export const ProductsListItem = (props) => {
+    let product = props.product;
     return <Row className="products-list-item" key={product.usin}>
         <Col md="3">
             <img height={200} src={product.images[0]} alt={product.title}/>
         </Col>
-        <Col style={{display: "flex", flexDirection: "column"}}>
+        <Col>
             <Row>
                 <h2 className="products-list-item__title">
                     <Link to={'/product/' + product.usin}>
@@ -26,7 +27,6 @@ export const ProductsListItem = ({product}) => {
             <Row>
                 <ProductRating ratings={product.ratings}/>
             </Row>
-            <Row style={{flex: 1}}/>
             <Row className="bottom-selloptions">
                 <ProductSellOptions sellOptions={product.sellOptions}/>
             </Row>

@@ -8,6 +8,7 @@ import tags from "mock/tags-sample.json";
 import './ProductsList.css'
 import { useLoading, getProducts } from 'utils/loader';
 
+import Container from 'react-bootstrap/Container';
 
 export const ProductsList = ({tag}) => {
     if (tag == null) {
@@ -24,18 +25,12 @@ export const ProductsList = ({tag}) => {
     const productsResponse = useLoading(getMatchingProducts);
 
 
+export const ProductsList = () => {
     return <Container className="products-list">
-        
-        <ProductsSearch query={query} handler={setQuery}/>
-        {productsResponse.loading && <div>Loading products list</div>}
-        {productsResponse.error && <div>Error loading products: {productsResponse.error.message}</div>}
-        {   productsResponse.data &&
-            productsResponse.data
-            .map(product => 
+        {sample.products.map(product => 
             <Container key={product.usin}>
                 <ProductsListItem product={product}/>
             </Container>
-            )
-        }
+        )}
     </Container>
 }

@@ -2,25 +2,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
-import {Link} from "react-router-dom";
 
-import {ProductSellOptions} from 'components/Common/ProductSellOptions/ProductSellOptions'
-import {ProductRating} from 'components/Common/ProductRating/ProductRating'
-import {ProductTag} from 'components/Common/ProductTag/ProductTag'
+import {ProductSellOptions} from '../Common/ProductSellOptions/ProductSellOptions'
+import {ProductRating} from '../Common/ProductRating/ProductRating'
 
 import './ProductCard.css'
 
 
 export const ProductCard = (props) => {
-    let productResponse = props.product;
-    if (productResponse.error) {
-        return <div>Error loading productinfo</div>
-    }
-    // nullptr exception causes crash before loading flag is set, so
-    if (!productResponse.data || productResponse.loading) {
-        return <div>Loading product...</div>
-    }
-    let product = productResponse.data;
+    let product = props.product;
     return <Container className="product-card">
         <Row>
             <Col md="auto">
@@ -29,13 +19,7 @@ export const ProductCard = (props) => {
             <Col>
                 <Row>
                     <h1 className="product-card__title">{product.title}</h1>
-                    <span className="product-card__edit">
-                        <Link to={'/edit/' + product.usin}>
-                            Редактировать
-                        </Link>
-                    </span>
                     <span className="product-card__author">by {product.attributes.author}</span>
-                    <ProductTag tag={product.tag}/>
                 </Row>
                 <Row>
                     <ProductRating ratings={product.ratings}/>
