@@ -4,10 +4,12 @@ import {ProductsPage} from "./ProductsPage";
 import {ProductPage} from "./ProductPage";
 
 const AppRouter = () => {
-    return <BrowserRouter>
+    return <BrowserRouter basename="/">
         <Routes>
             <Route path="/products" element={<ProductsPage/>}/>
+            <Route path="/products/:tag" element={<ProductsPage/>}/>
             <Route path="/product/:usin" element={<ProductPage/>}/>
+            <Route path="*" element={<ProductsPage/>}/>
         </Routes>
     </BrowserRouter>
 }
