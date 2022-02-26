@@ -13,18 +13,14 @@ import {ReactQueryDevtools} from 'react-query/devtools'
 const queryClient = new QueryClient()
 
 const AppRouter = () => {
-    return <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-            <Routes>
-                <Route path="/products" element={<ProductsPage/>}/>
-                <Route path="/product/:usin" element={<ProductPage/>}/>
-                <Route path="/test" element={<Test/>}/>
-                <Route path="/lst" element={<LocalStorageTest/>}/>
-                <Route path="/uit" element={<UseIntervalTest/>}/>
-                <Route path="/test-server-api" element={<TestServerApi/>}/>
-            </Routes>
-            <ReactQueryDevtools initialIsOpen={false}/>
-        </QueryClientProvider>
+    return <BrowserRouter basename="/">
+        <Routes>
+            <Route path="/products" element={<ProductsPage/>}/>
+            <Route path="/products/:tag" element={<ProductsPage/>}/>
+            <Route path="/product/:usin" element={<ProductPage/>}/>
+            <Route path="*" element={<ProductsPage/>}/>
+            <Route path="/test-server-api" element={<TestServerApi/>}/>
+        </Routes>
     </BrowserRouter>
 }
 
