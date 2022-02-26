@@ -11,8 +11,6 @@ const AppRouter = () => {
             <Route path="/products" element={<ProductsPage/>}/>
             <Route path="/products/:tag" element={<ProductsPage/>}/>
             <Route path="/product/:usin" element={<ProductPage/>}/>
-            <Route path="/edit" element={<ProductEdit/>}/>
-            <Route path="/edit/:usin" element={<ProductEdit/>}/>
             <Route path="*" element={<ProductsPage/>}/>
         </Routes>
     </BrowserRouter>

@@ -24,13 +24,22 @@ export const ProductsList = ({tag}) => {
     )
     const productsResponse = useLoading(getMatchingProducts);
 
+import './ProductsList.css'
 
-export const ProductsList = () => {
+
+export const ProductsList = ({tag}) => {
+    const tagsTree = new TagsTree();
     return <Container className="products-list">
         {sample.products.map(product => 
-            <Container key={product.usin}>
-                <ProductsListItem product={product}/>
-            </Container>
+            {
+                if (tagsTree.isChildTag(tag, product.tag)) {
+                    return <Container key={product.usin}>
+                        <ProductsListItem product={product}/>
+                    </Container>
+                } else {
+                    return "";
+                }
+            }
         )}
     </Container>
 }

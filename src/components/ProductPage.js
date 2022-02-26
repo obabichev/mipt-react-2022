@@ -5,7 +5,6 @@ import {ProductCard} from './ProductCard/ProductCard'
 
 export const ProductPage = () => {
     const params = useParams();
-    const navigate = useNavigate()
 
 import {useLoading} from 'utils/loader'
 import {getProduct} from 'utils/loader'

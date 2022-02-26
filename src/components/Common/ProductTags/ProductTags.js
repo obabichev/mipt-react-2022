@@ -1,10 +1,6 @@
-import React, {useCallback} from 'react';
-
-
 import { Container } from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import {TagsTree} from 'utils/tag-tree'
-import {useLoading, getTags} from 'utils/loader'
 
 import tags from "mock/tags-sample.json";
 import './ProductTags.css'

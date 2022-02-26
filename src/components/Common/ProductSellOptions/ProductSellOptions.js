@@ -6,11 +6,11 @@ import Button from 'react-bootstrap/Button';
 import './ProductSellOptions.css'
 
 
-export const ProductSellOptions = (props) => {
+export const ProductSellOptions = ({sellOptions}) => {
     return <Container className="product-sell-options">
         <Row>
         {
-            props.sellOptions.map(sellOption =>
+            sellOptions.map(sellOption =>
                 <Col md="auto" className="product-sell-option">
                     <Button>
                     <Row>

@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 //import tags from "mock/tags-sample.json";
 
->>>>>>> hw3init
 /*
 Builds tag tree in memory with fake root vertex corresponding to null key
 */
@@ -10,56 +7,40 @@ Builds tag tree in memory with fake root vertex corresponding to null key
 export class TagsTree {
     constructor(tags) {
         let tagsTree = {};
-<<<<<<< HEAD
-        tagsTree[""] = {
-            key: "",
-            parent: "",
-            title: "All",
-            children: []
-        };
-=======
         if (tags) {
->>>>>>> hw3init
         tags.forEach(tag => {
-            let tagChildren = tagsTree[tag.key] || [];
-            let parent = tag.parent ? tag.parent: "";
+            let tagChildren = tagsTree[tag.title] === undefined ? [] : tagsTree[tag.title]["children"];
             tagsTree[tag.key] = {
                 "key": tag.key,
-                "parent": parent,
+                "parent": tag.parent,
                 "title": tag.title,
                 "children": tagChildren
             };
-            if (tagsTree[parent] === undefined) {
-                tagsTree[parent] = {
+            if (tagsTree[tag.parent] === undefined) {
+                tagsTree[tag.parent] = {
                     children: []
                 };
             }
-            tagsTree[parent]["children"].push(tag.key);
+            tagsTree[tag.parent]["children"].push(tag.key);
         });
-<<<<<<< HEAD
-=======
         tagsTree[null].key = "";
         tagsTree[null].parent = null;
         tagsTree[null].title = "All";
         }
->>>>>>> hw3init
         this.tagsTree = tagsTree;
     }
 
     get(key) {
-        if (!key) {
-            key = "";
-        }
         return this.tagsTree[key];
     }
 
     isChildTag = (parent, child) => {
-        if (parent === "") {
+        if (parent == null) {
             return true;
         }
     
         let tag = child;
-        while (tag !== "") {
+        while (tag != null) {
             let tagNode = this.tagsTree[tag];
             if (tagNode.key === parent) {
                 return true;
@@ -71,17 +52,14 @@ export class TagsTree {
     }
 
     tagParentsList = (tag) => {
-        if (!tag) {
-            tag = "";
-        }
         let parentTagsList = [];
         let rootTag = tag;
-        while (rootTag !== "") {
+        while (rootTag != null) {
             let tagNode = this.tagsTree[rootTag];
             parentTagsList.push(tagNode.key);
             rootTag = tagNode.parent;
         }
-        parentTagsList.push("");
+        parentTagsList.push(null);
         parentTagsList = parentTagsList.reverse();
         return parentTagsList;
     }

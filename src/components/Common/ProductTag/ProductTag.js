@@ -1,5 +1,3 @@
-import React, {useCallback} from 'react';
-
 import {TagsTree} from 'utils/tag-tree'
 import {Link} from "react-router-dom";
 
