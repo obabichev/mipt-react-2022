@@ -1,0 +1,21 @@
+.products-tags__link {
+    color: black !important;
+    text-decoration: none;
+}
+
+.products-tags__link:hover {
+    color: orangered;
+}
+
+.product-tags__list {
+    list-style-type: none;
+}
+
+.products-tags__heading {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.product-tags{
+    padding-top: 1%;
+}

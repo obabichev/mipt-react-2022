@@ -3,8 +3,9 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 
-import {ProductSellOptions} from '../Common/ProductSellOptions/ProductSellOptions'
-import {ProductRating} from '../Common/ProductRating/ProductRating'
+import {ProductSellOptions} from 'components/Common/ProductSellOptions/ProductSellOptions'
+import {ProductRating} from 'components/Common/ProductRating/ProductRating'
+import {ProductTag} from 'components/Common/ProductTag/ProductTag'
 
 import './ProductCard.css'
 
@@ -20,6 +21,7 @@ export const ProductCard = (props) => {
                 <Row>
                     <h1 className="product-card__title">{product.title}</h1>
                     <span className="product-card__author">by {product.attributes.author}</span>
+                    <ProductTag tag={product.tag}/>
                 </Row>
                 <Row>
                     <ProductRating ratings={product.ratings}/>
