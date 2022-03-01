@@ -1,14 +1,14 @@
 import React from 'react';
 import {Card, Col, Image, Row, Typography, Rate} from 'antd';
 import sample from "../mock/products-sample.json";
-const { Title, Link, Text, Paragraph } = Typography;
+import {countProductMetrics} from "../utils";
+
+const {Title, Link, Text, Paragraph} = Typography;
 
 
 const ProductCard = (props) => {
     const product = props.prod;
-    const [count, sum] = product.ratings.reduce(([currentCount, currentSum], {rate, amount}) => {
-        return [currentCount + amount, currentSum + rate * amount];
-    }, [0, 0]);
+    const [count, sum] = countProductMetrics(product);
 
     return <Card style={{width: 800, margin: 20}}>
         <>
@@ -21,7 +21,7 @@ const ProductCard = (props) => {
                         <Link href={`/product/${product.usin}`}>{product.title}</Link>
                     </Title>
                     <Paragraph>
-                        <Text>by {product.attributes.author}</Text>
+                        <Text>Автор: {product.attributes.author}</Text>
                     </Paragraph>
                     <Rate allowHalf disabled={true} value={sum / count}/>
                     <span className="ant-rate-text">{count}</span>
