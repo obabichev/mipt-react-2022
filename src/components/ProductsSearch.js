@@ -9,6 +9,5 @@ export const ProductsSearch = () => {
 
     return <div style={{border: "solid 1px green", padding: 10, margin: 10}}>
         <input value={text} onChange={handleOnChange}/>
-        <b>{text}</b>
     </div>
 }
