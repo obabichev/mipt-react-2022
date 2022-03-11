@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import AppRouter from "./components/AppRouter";
+import 'antd/dist/antd.css'
 
 ReactDOM.render(
     <AppRouter/>,
