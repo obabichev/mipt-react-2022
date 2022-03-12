@@ -1,5 +1,4 @@
 import React from 'react';
-import {useCallback, useState} from "react";
 import { Container } from 'react-bootstrap';
 import {useParams, useNavigate} from "react-router-dom";
 
@@ -7,68 +6,41 @@ import { Formik, Form, Field, FieldArray } from 'formik';
 
 import tags from "mock/tags-sample.json";
 import {ProductList} from 'utils/product-list'
-import {useLoading} from 'utils/loader'
-import {getProduct} from 'utils/loader'
 
 
 export const ProductEdit = () => {
     const params = useParams();
     const navigate = useNavigate();
     let productList = new ProductList();
-    const getCurrentProduct = useCallback(
-        () => getProduct(params.usin),
-        [params])
-    const product = useLoading(getCurrentProduct);
     let cardInit = params.usin === undefined ? {
-        "data": {
-            title: "",
-            description: "",
-            images: [], 
-            tag: "books", 
-            attributes:{
-                "isbn-10": "",
-                "author": "",
-                "publisher": "",
-                "paperback": "",
-                "language": "",
-                "isbn-13": "",
-                "dimensions": ""
-            }, 
-            sellOptions: [], 
-            ratings:[]
-        }
-    } : product;
-
-    if (cardInit.error) {
-        return <div>Error loading product data {cardInit.error.message}</div>
-    }
-
-    if (!cardInit.data || cardInit.loading) {
-        return <div>Loading product data</div>
-    }
+        usin: Date.now().toString(),
+        title: "",
+        description: "",
+        images: [], 
+        tag: "books", 
+        attributes:{
+            "isbn-10": "",
+            "author": "",
+            "publisher": "",
+            "paperback": "",
+            "language": "",
+            "isbn-13": "",
+            "dimensions": ""
+        }, 
+        sellOptions: [], 
+        ratings:[]
+    } : productList.get().find(p => p.usin === params.usin);
 
     return <Container>
             <h2>Добавить продукт</h2>
             <Formik
             initialValues={
-                cardInit.data
+                cardInit
             }
             onSubmit={async (values) => {
-                fetch('/api/service-boarding/boarding', 
-                {
-                    method: params.usin === undefined ? "POST" : "PUT", 
-                    body: JSON.stringify(values),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    return response.json();
-                })
-                .then(response => {
-                    const fwdUrl = '/product/' + response.usin;
-                    navigate(fwdUrl);
-                })
+                productList.add(values);
+                const fwdUrl = '/product/' + values.usin;
+                navigate(fwdUrl);
             }}
             render={({ values }) => (
             <Form>

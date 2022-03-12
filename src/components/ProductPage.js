@@ -2,9 +2,7 @@ import React, {useCallback} from 'react';
 import {useParams} from "react-router-dom";
 
 import {ProductCard} from './ProductCard/ProductCard'
-
-export const ProductPage = () => {
-    const params = useParams();
+import {ProductList} from 'utils/product-list'
 
 import {useLoading} from 'utils/loader'
 import {getProduct} from 'utils/loader'
