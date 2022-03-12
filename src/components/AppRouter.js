@@ -3,10 +3,6 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ProductsPage} from "./ProductsPage";
 import {ProductPage} from "./ProductPage";
 import {ProductEdit} from "./ProductEdit";
-<<<<<<< HEAD
-import {TestServerApi} from "./TestServerApi";
-=======
->>>>>>> add hw2
 
 const AppRouter = () => {
     return <BrowserRouter basename="/">
