@@ -25,7 +25,6 @@ export class TagsTree {
         tagsTree[null].key = "";
         tagsTree[null].parent = null;
         tagsTree[null].title = "All";
-        console.log(tagsTree);
         this.tagsTree = tagsTree;
     }
 
