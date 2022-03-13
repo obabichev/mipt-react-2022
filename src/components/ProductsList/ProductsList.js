@@ -6,11 +6,15 @@ import {TagsTree} from 'utils/tag-tree'
 import {ProductList} from 'utils/product-list'
 import {ProductsSearch} from 'components/ProductsSearch/ProductsSearch'
 
+import tags from "mock/tags-sample.json";
 import './ProductsList.css'
 
 
 export const ProductsList = ({tag}) => {
-    const tagsTree = new TagsTree();
+    if (tag == null) {
+        tag = "";
+    }
+    const tagsTree = new TagsTree(tags);
     let productList = new ProductList();
 
     const [query, setQuery] = useState("");

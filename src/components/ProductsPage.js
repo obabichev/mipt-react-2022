@@ -10,7 +10,7 @@ import { ProductTags } from "components/Common/ProductTags/ProductTags";
 
 export const ProductsPage = () => {
     const params = useParams();
-    let tag = params.tag === undefined ? null : params.tag;
+    let tag = params.tag;
     return <Row>
             <Col sm="auto">
                 <ProductTags tag={tag}/>
