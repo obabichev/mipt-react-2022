@@ -2,6 +2,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
+import {Link} from "react-router-dom";
 
 import {ProductSellOptions} from 'components/Common/ProductSellOptions/ProductSellOptions'
 import {ProductRating} from 'components/Common/ProductRating/ProductRating'
@@ -20,6 +21,11 @@ export const ProductCard = (props) => {
             <Col>
                 <Row>
                     <h1 className="product-card__title">{product.title}</h1>
+                    <span className="product-card__edit">
+                        <Link to={'/edit/' + product.usin}>
+                            Редактировать
+                        </Link>
+                    </span>
                     <span className="product-card__author">by {product.attributes.author}</span>
                     <ProductTag tag={product.tag}/>
                 </Row>

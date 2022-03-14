@@ -1,11 +1,12 @@
 import {TagsTree} from 'utils/tag-tree'
 import {Link} from "react-router-dom";
 
+import tags from "mock/tags-sample.json";
 import './ProductTag.css'
 
 
 export const ProductTag = ({tag}) => {
-    const tagsTree = new TagsTree();
+    const tagsTree = new TagsTree(tags);
     const parentTagsList = tagsTree.tagParentsList(tag);
     return <span>
         {

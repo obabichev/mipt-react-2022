@@ -1,13 +1,15 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
-import sample from "mock/products-sample.json";
 
 import {ProductCard} from './ProductCard/ProductCard'
+import {ProductList} from 'utils/product-list'
+
 
 export const ProductPage = () => {
+    let productList = new ProductList();
     const params = useParams();
 
-    const product = sample.products.find(p => p.usin === params.usin);
+    const product = productList.get().find(p => p.usin === params.usin);
 
     if (!product) {
         return <div>
