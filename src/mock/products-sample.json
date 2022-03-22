@@ -1,0 +1,190 @@
+{
+  "products": [
+    {
+      "usin": "f2f5e7ea-edf8-42c2-96bb-d31d81e67092",
+      "title": "Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems",
+      "description": "Data is at the center of many challenges in system design today. Difficult issues need to be figured out, such as scalability, consistency, reliability, efficiency, and maintainability. In addition, we have an overwhelming variety of tools, including relational databases, NoSQL datastores, stream or batch processors, and message brokers. What are the right choices for your application? How do you make sense of all these buzzwords?\n\nIn this practical and comprehensive guide, author Martin Kleppmann helps you navigate this diverse landscape by examining the pros and cons of various technologies for processing and storing data. Software keeps changing, but the fundamental principles remain the same. With this book, software engineers and architects will learn how to apply those ideas in practice, and how to make full use of data in modern applications.",
+      "attributes": {
+        "isbn-10": "1449373321",
+        "author": "Martin Kleppmann",
+        "publisher": "O'Reilly UK Ltd.; Revised edition (14 Mar. 2017)",
+        "paperback": "590 pages",
+        "isbn-13": "978-1449373320",
+        "language": "English",
+        "dimensions": "17.8 x 3.15 x 23.3 cm"
+      },
+      "images": [
+        "https://images-na.ssl-images-amazon.com/images/I/91JAIKQUkYL.jpg",
+        "https://images-na.ssl-images-amazon.com/images/I/8104cSQS92L.jpg",
+        "https://images-na.ssl-images-amazon.com/images/I/31jaOnaK+uL.jpg"
+      ],
+      "ratings": [
+        {
+          "rate": 5,
+          "amount": 1577
+        },
+        {
+          "rate": 4,
+          "amount": 206
+        },
+        {
+          "rate": 3,
+          "amount": 56
+        },
+        {
+          "rate": 2,
+          "amount": 18
+        },
+        {
+          "rate": 1,
+          "amount": 27
+        }
+      ],
+      "sellOptions": [
+        {
+          "price": 0,
+          "currency": "EUR",
+          "type": "Audiobook"
+        },
+        {
+          "price": 3400,
+          "currency": "EUR",
+          "type": "Paperback"
+        }
+      ],
+      "tag": "it-training-and-professions"
+    },
+    {
+      "usin": "0a54bedf-8c7e-41d6-8ef1-31aab08dbb36",
+      "title": "Architecture Patterns with Python: Enabling Test-Driven Development, Domain-Driven Design, and Event-Driven Microservices",
+      "description": "As Python continues to grow in popularity, projects are becoming larger and more complex. Many Python developers are taking an interest in high-level software design patterns such as hexagonal/clean architecture, event-driven architecture, and the strategic patterns prescribed by domain-driven design (DDD). But translating those patterns into Python isn&;t always straightforward.\n\nWith this hands-on guide, Harry Percival and Bob Gregory from MADE.com introduce proven architectural design patterns to help Python developers manage application complexity&;and get the most value out of their test suites.",
+      "attributes": {
+        "isbn-10": "1492052205",
+        "author": "Harry Percival, Bob Gregory",
+        "publisher": "O'Reilly UK Ltd.; Illustrated edition (24 Mar. 2020)",
+        "paperback": "276 pages",
+        "language": "English",
+        "isbn-13": "978-1492052203",
+        "dimensions": "17.78 x 1.63 x 23.34 cm"
+      },
+      "images": [
+        "https://images-na.ssl-images-amazon.com/images/I/91EC3gsKfYL.jpg",
+        "https://images-na.ssl-images-amazon.com/images/I/71AQv-4tV6L.jpg"
+      ],
+      "ratings": [
+        {
+          "rate": 5,
+          "amount": 150
+        },
+        {
+          "rate": 4,
+          "amount": 25
+        },
+        {
+          "rate": 3,
+          "amount": 14
+        },
+        {
+          "rate": 2,
+          "amount": 4
+        },
+        {
+          "rate": 1,
+          "amount": 6
+        }
+      ],
+      "sellOptions": [
+        {
+          "price": 4199,
+          "currency": "EUR",
+          "type": "Paperback"
+        }
+      ],
+      "tag": "it-training-and-professions"
+    },
+    {
+      "usin": "1f5e5068-aaa2-4d01-a93c-1d1f6e5b2275",
+      "title": "Building APIs with Node.js",
+      "description": "Learn how to build scalable APIs using the Node.js platform and ES6 (EcmaScript 2015) with this quick, informative guide.\n\nDeveloping systems for the wide range of devices available in the modern world requires the construction of APIs designed to work only with data in a centralized manner, allowing client-side applications to be developed separately and have a unique interface for the final user. \n\nNode.js has proven itself to be an excellent platform for building REST APIs because of its single-thread architecture. It has a low learning curve and can be understood by anyone who has a basic understanding of the JavaScript language. \n\nUse Building APIs with Node.js today to understand how Node.js APIs work, and how you can build your own.",
+      "attributes": {
+        "isbn-10": "1484224418",
+        "author": "Caio Ribeiro Ribeiro Pereira",
+        "publisher": "Apress; 1st ed. edition (16 Dec. 2016)",
+        "paperback": "156 pages",
+        "language": "English",
+        "isbn-13": "978-1484224410",
+        "dimensions": "15.49 x 0.91 x 23.5 cm"
+      },
+      "images": [
+        "https://images-na.ssl-images-amazon.com/images/I/61zgADipeBL.jpg",
+        "https://images-na.ssl-images-amazon.com/images/I/61WJQ3zGK5L.jpg"
+      ],
+      "ratings": [
+        {
+          "rate": 5,
+          "amount": 1
+        },
+        {
+          "rate": 4,
+          "amount": 1
+        }
+      ],
+      "sellOptions": [
+        {
+          "price": 2995,
+          "currency": "EUR",
+          "type": "Paperback"
+        }
+      ],
+      "tag": "programming-and-web-design"
+    },
+    {
+      "usin": "a32eeabe-9923-43ad-9168-131243eab302",
+      "title": "Javascript: The Definitive Guide: Master the World's Most-Used Programming Language",
+      "description": "JavaScript is the programming language of the web and is used by more software developers today than any other programming language. For nearly 25 years this best seller has been the go-to guide for JavaScript programmers. The seventh edition is fully updated to cover the 2020 version of JavaScript, and new chapters cover classes, modules, iterators, generators, Promises, async/await, and metaprogramming. You&;ll find illuminating and engaging example code throughout.\n\nThis book is for programmers who want to learn JavaScript and for web developers who want to take their understanding and mastery to the next level. It begins by explaining the JavaScript language itself, in detail, from the bottom up. It then builds on that foundation to cover the web platform and Node.js.",
+      "attributes": {
+        "isbn-10": "1491952024",
+        "author": "David Flanagan",
+        "publisher": "O'Reilly UK Ltd.; 7. edition (9 Jun. 2020)",
+        "paperback": "687 pages",
+        "language": "English",
+        "isbn-13": "978-1491952023",
+        "dimensions": "17.6 x 3.81 x 22.61 cm"
+      },
+      "images": [
+        "https://images-na.ssl-images-amazon.com/images/I/919ZMTHDPBL.jpg",
+        "https://images-na.ssl-images-amazon.com/images/I/81ZH+cnmzVL.jpg"
+      ],
+      "ratings": [
+        {
+          "rate": 5,
+          "amount": 499
+        },
+        {
+          "rate": 4,
+          "amount": 74
+        },
+        {
+          "rate": 3,
+          "amount": 25
+        },
+        {
+          "rate": 2,
+          "amount": 13
+        },
+        {
+          "rate": 1,
+          "amount": 12
+        }
+      ],
+      "sellOptions": [
+        {
+          "price": 5999,
+          "currency": "EUR",
+          "type": "Paperback"
+        }
+      ],
+      "tag": "programming-and-web-design"
+    }
+  ]
+}
