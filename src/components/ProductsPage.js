@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Card, Col, Image, Row, Typography, Rate, Input, Button, Form, Modal} from 'antd';
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import {countProductMetrics, useLocalStorage} from "../utils";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 const {Title, Link, Text, Paragraph} = Typography;
 
@@ -25,6 +25,9 @@ const ProductCard = (props) => {
                     </Paragraph>
                     <Rate allowHalf disabled={true} value={count > 0 ? sum / count : 0}/>
                     <span className="ant-rate-text">{count}</span>
+                    <Paragraph>
+                        <Button onClick={props.onEditItemClick}>Изменить</Button>
+                    </Paragraph>
                 </Col>
             </Row>
         </>
@@ -36,6 +39,10 @@ const ProductEditForm = (props) => {
                   title={props.usin ? "Редактирование продукта" : "Создание продукта"} okText={"Сохранить"}
                   cancelText={"Отмена"}>
         <Form form={props.form}>
+            <Form.Item hidden={true} name={"usin"}>
+                <Input/>
+            </Form.Item>
+
             <Form.Item label={"Название продукта"} name={"title"}>
                 <Input/>
             </Form.Item>
@@ -74,23 +81,23 @@ const ProductEditForm = (props) => {
 
             <Form.List name={"images"}>
                 {(fields, {add, remove}) => (<>
-                        {fields.map((field) => (<Form.Item required={false} key={field.key}>
-                                <Form.Item {...field} noStyle>
-                                    <Input placeholder="URL картинки" style={{width: '90%'}}/>
-                                </Form.Item>
-                                <MinusCircleOutlined onClick={() => remove(field.name)}/>
-                            </Form.Item>))}
-
-                        <Form.Item>
-                            <Button
-                                type="dashed"
-                                onClick={() => add()}
-                                icon={<PlusOutlined/>}
-                            >
-                                Добавить картинку
-                            </Button>
+                    {fields.map((field) => (<Form.Item required={false} key={field.key}>
+                        <Form.Item {...field} noStyle>
+                            <Input placeholder="URL картинки" style={{width: '90%'}}/>
                         </Form.Item>
-                    </>)}
+                        <MinusCircleOutlined onClick={() => remove(field.name)}/>
+                    </Form.Item>))}
+
+                    <Form.Item>
+                        <Button
+                            type="dashed"
+                            onClick={() => add()}
+                            icon={<PlusOutlined/>}
+                        >
+                            Добавить картинку
+                        </Button>
+                    </Form.Item>
+                </>)}
             </Form.List>
         </Form>
     </Modal>;
@@ -108,38 +115,45 @@ export const ProductsPage = () => {
 
     const [editFormVisible, setEditFormVisible] = useState(false);
 
-    const hideEditForm = () => {
+    const onFormCancel = () => {
         setEditFormVisible(false);
     }
 
     const [form] = Form.useForm();
 
-    const onNewClick = () => {
+    const onNewItemClick = () => {
         form.resetFields();
         setEditFormVisible(true);
     };
 
     const onFormOk = () => {
         const values = form.getFieldsValue();
-        const usin = uuidv4();
-        const newProduct = {
-            usin: usin,
-            ...values
-        };
 
-        setProducts([...products, newProduct]);
+        if (values.usin) {
+            setProducts(products.map((product) => product.usin === values.usin ? {...product, ...values} : product));
+        } else {
+            setProducts([...products, {...values, usin: uuidv4()}]);
+        }
 
         setEditFormVisible(false);
     };
 
+    const onEditItemClickForProduct = (product) => {
+        return () => {
+            form.resetFields();
+            form.setFieldsValue(product);
+            setEditFormVisible(true);
+        };
+    };
+
     return <>
-        <ProductEditForm visible={editFormVisible} onOk={onFormOk} onCancel={hideEditForm} form={form}/>
+        <ProductEditForm visible={editFormVisible} onOk={onFormOk} onCancel={onFormCancel} form={form}/>
         <Input placeholder="Введите часть названия или описания продукта" style={{width: 800, margin: 20}}
                onChange={onTextChange}/>
-        <Button onClick={onNewClick}>Создать</Button>
+        <Button onClick={onNewItemClick}>Создать</Button>
         <div>
             {products.filter((product) => product.title.toLowerCase().includes(searchText) || product.description.toLowerCase().includes(searchText))
-                .map((product) => <ProductCard prod={product}/>)}
+                .map((product) => <ProductCard prod={product} onEditItemClick={onEditItemClickForProduct(product)}/>)}
         </div>
     </>;
 }
