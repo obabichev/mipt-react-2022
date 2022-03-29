@@ -14,7 +14,7 @@ const ProductCard = (props) => {
         <>
             <Row>
                 <Col span={6}>
-                    <Image src={product.images[0]}/>
+                    <Image src={product.images && product.images[0] && product.images[0]}/>
                 </Col>
                 <Col span={17} offset={1}>
                     <Title level={4}>
