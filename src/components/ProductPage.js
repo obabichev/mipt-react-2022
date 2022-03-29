@@ -1,17 +1,18 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
-import sample from "../mock/products-sample.json";
 import {Col, Descriptions, Image, Rate, Row, Tag, Typography} from "antd";
-import {countProductMetrics} from "../utils";
+import {countProductMetrics, useLocalStorage} from "../utils";
 
 const {Title, Text, Paragraph} = Typography;
 
 export const ProductPage = () => {
     document.title = "Продукт";
 
+    const [products, setProducts] = useLocalStorage();
+
     const params = useParams();
 
-    const product = sample.products.find(p => p.usin === params.usin);
+    const product = products.find(p => p.usin === params.usin);
 
     if (!product) {
         return <div>
