@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {Card, Col, Image, Row, Typography, Rate, Input, Button, Form, Modal} from 'antd';
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
-import sample from "../mock/products-sample.json";
-import {countProductMetrics} from "../utils";
+import {countProductMetrics, useLocalStorage} from "../utils";
 import { v4 as uuidv4 } from 'uuid';
 
 const {Title, Link, Text, Paragraph} = Typography;
@@ -100,6 +99,8 @@ const ProductEditForm = (props) => {
 export const ProductsPage = () => {
     document.title = 'Продукты';
 
+    const [products, setProducts] = useLocalStorage();
+
     const [searchText, setSearchText] = useState('');
     const onTextChange = (e) => {
         setSearchText(e.target.value.toLowerCase());
@@ -126,7 +127,7 @@ export const ProductsPage = () => {
             ...values
         };
 
-        sample.products.push(newProduct);
+        setProducts([...products, newProduct]);
 
         setEditFormVisible(false);
     };
@@ -137,7 +138,7 @@ export const ProductsPage = () => {
                onChange={onTextChange}/>
         <Button onClick={onNewClick}>Создать</Button>
         <div>
-            {sample.products.filter((product) => product.title.toLowerCase().includes(searchText) || product.description.toLowerCase().includes(searchText))
+            {products.filter((product) => product.title.toLowerCase().includes(searchText) || product.description.toLowerCase().includes(searchText))
                 .map((product) => <ProductCard prod={product}/>)}
         </div>
     </>;
