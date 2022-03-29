@@ -26,7 +26,7 @@ export const ProductPage = () => {
         <Row>
             <Col span={4}>
                 <Image.PreviewGroup>
-                    {product.images.map((img => <Image src={img}/>))}
+                    {product.images && product.images.map((img => <Image src={img}/>))}
                 </Image.PreviewGroup>
             </Col>
             <Col span={19} offset={1}>
