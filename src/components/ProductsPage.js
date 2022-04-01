@@ -1,7 +1,6 @@
-import React from 'react';
-import sample from "../mock/products-sample.json";
-import {Breadcrumb, Button, Card, Col, Layout, Menu, Rate, Row} from "antd";
-import {SearchOutlined, UserOutlined} from "@ant-design/icons";
+import React, {useState} from 'react';
+import {Breadcrumb, Button, Card, Col, Input, Layout, Menu, Rate, Row} from "antd";
+import {UserOutlined} from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 import {useNavigate} from "react-router-dom";
 
@@ -18,26 +17,48 @@ export const sumRating = rating => {
     return [sumAmount, sumRating]
 }
 
-export const ProductsPage = () => {
+export const renderBySearch = (state, title) => {
+    return title.toLowerCase().includes(state.toLowerCase());
+}
+
+export const ProductsPage = (props) => {
+    const products = props.state[0]
     const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;
     const { Meta } = Card;
     const navigate = useNavigate()
+    const [text, setText] = useState("")
+
+    const handleOnChange = (event) => {
+        console.log(event.target.value)
+        setText(event.target.value)
+    }
 
     return <Layout>
         {(
             <Header className="header">
+                <div>
                 <div className="logo"/>
                 <img
                     width="100"
                     src="https://logos.textgiraffe.com/logos/logo-name/Clay-designstyle-jungle-m.png"
                 />
-                <span style={{padding: 70}}>
-                <Button icon={<SearchOutlined/>} float="left">Search</Button>
-            </span>
+                {/*<Button icon={<SearchOutlined/>} float="left">Search</Button>*/}
+                    <span style={{padding: 10}}>
+                    <Input value={text} onChange={handleOnChange}
+                           placeholder="Search"
+                           style={{width: 300, height: 40, marginLeft: 60}}/>
+                </span>
+                </div>
                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
                     <Menu.Item key="1">nav 1</Menu.Item>
                 </Menu>
+                <Button key="1" type="primary" style={{marginLeft: 1126}}
+                        onClick={() => {
+                            navigate(`/products/new`);
+                        }}>
+                    Add a new product
+                </Button>
             </Header>
         )}
         <Layout>
@@ -72,8 +93,8 @@ export const ProductsPage = () => {
                         <div className="site-card-wrapper">
                             <Title level={2}>Catalogue</Title>
                             <Row gutter={16}>
-                                {sample.products.map(product =>
-                                    <Col key={product.usin} span={8} style={{padding: 20}}>
+                                {products.map(product =>
+                                    renderBySearch(text, product.title) && <Col key={product.usin} span={8} style={{padding: 20}}>
                                         <Card
                                             hoverable
                                             style={{width: 240}}
