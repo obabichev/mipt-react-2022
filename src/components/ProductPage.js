@@ -100,11 +100,12 @@ const NotFountPage = (
     </div>
 );
 
-export const ProductPage = () => {
+export const ProductPage = (props) => {
+    const products = props.state[0]
     const params = useParams();
     const navigate = useNavigate()
 
-    const product = sample.products.find(p => p.usin === params.usin);
+    const product = products.find(p => p.usin === params.usin);
 
     if (!product) {
         return NotFountPage
@@ -134,8 +135,11 @@ export const ProductPage = () => {
         subTitle={product.usin}
         breadcrumb = {{ routes }}
         extra={[
-            <Button key="1" type="primary">
-                Add to cart
+            <Button key="1" type="primary"
+                onClick={() => {
+                    navigate(`/product/${product.usin}/edit`);
+                }}>
+                Edit the product
             </Button>,
         ]}
         footer={

@@ -1,14 +1,19 @@
-import {useState} from "react";
+import React, {useState} from "react";
+import {Input} from "antd";
 
 export const ProductsSearch = () => {
     const [text, setText] = useState("")
 
     const handleOnChange = (event) => {
-        setText(event.target.value.toUpperCase())
+        console.log(event.target.value)
+        setText(event.target.value)
     }
 
-    return <div style={{border: "solid 1px green", padding: 10, margin: 10}}>
-        <input value={text} onChange={handleOnChange}/>
-        <b>{text}</b>
-    </div>
+    return <span style={{padding: 10}}>
+        <Input value={text} onChange={handleOnChange}
+                  placeholder="Search"
+                  style={{width: 300, height: 40, marginLeft: 60}}/>
+        {text}
+    </span>
+
 }
