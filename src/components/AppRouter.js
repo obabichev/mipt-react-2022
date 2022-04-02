@@ -12,7 +12,6 @@ const AppRouter = () => {
             <Route path="/product/:usin" element={<ProductPage/>}/>
             <Route path="/edit" element={<ProductEdit/>}/>
             <Route path="/edit/:usin" element={<ProductEdit/>}/>
-            <Route path="*" element={<ProductsPage/>}/>
         </Routes>
     </BrowserRouter>
 }
