@@ -1,4 +1,5 @@
 import {
+  Breadcrumb,
   Button,
   Carousel,
   Descriptions,
@@ -15,6 +16,8 @@ import { useParams } from 'react-router-dom';
 import productsSample from '../../../mock/products-sample';
 import { calculateRating } from '../../../utils/calculateRating';
 
+import Breadcrumbs from './components/Breadcrumbs';
+
 import styles from './ProductPage.module.css';
 
 const ProductPage = () => {
@@ -27,6 +30,7 @@ const ProductPage = () => {
     attributes: { author, publisher, language, dimensions, paperback },
     ratings,
     sellOptions,
+    tag,
   } = React.useMemo(
     () => productsSample.products.find((product) => product.usin === usin),
     [usin]
@@ -71,7 +75,10 @@ const ProductPage = () => {
         </div>
       </Layout.Sider>
       <Layout.Content className={styles['block']}>
-        <Title>{title}</Title>
+        <Breadcrumb>
+          <Breadcrumbs tag={tag} />
+        </Breadcrumb>
+        <Title className={styles['title']}>{title}</Title>
         <Text>{description}</Text>
         <Descriptions className={styles['description']} column={1}>
           <Descriptions.Item label="Author">{author}</Descriptions.Item>

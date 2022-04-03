@@ -11,7 +11,7 @@ const Tags = ({ tagsTree, parent = null, level = 0 }) => {
 
   return (
     <>
-      {tags.map(({ key, title, parent }) => (
+      {tags.map(({ key, title }) => (
         <div key={key} style={{ paddingLeft: '10px' }}>
           {title}
           <Tags tagsTree={tagsTree} parent={key} level={level + 1} />

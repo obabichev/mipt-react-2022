@@ -3,6 +3,7 @@
   display: inline-block;
   height: initial;
   line-height: initial;
+  cursor: pointer;
 }
 
 .logo__text {

@@ -16,7 +16,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
-      <Layout>
+      <Layout className="root">
         <Header />
         <Routes>
           <Route path="product">
