@@ -15,10 +15,7 @@ const Product = ({
   attributes: { author },
   sellOptions,
 }) => {
-  const rating = React.useMemo(
-    () => calculateProductRating(ratings),
-    [ratings]
-  );
+  const rating = React.useMemo(() => calculateProductRating(ratings), [ratings]);
 
   const navigate = useNavigate();
 

@@ -1,4 +1,4 @@
-export const calculateRating = (ratings) => {
+export const calculateProductRating = (ratings) => {
   const totalRates = ratings.reduce((acc, { amount }) => acc + amount, 0);
 
   return {
