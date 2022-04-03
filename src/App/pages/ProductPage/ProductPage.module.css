@@ -1,0 +1,54 @@
+.block {
+  padding: 20px;
+  margin-right: 20px;
+}
+
+.block_left {
+  margin-right: 20px;
+  overflow: hidden;
+}
+
+.carousel {
+  width: 400px;
+  margin: 0 12px 40px 0;
+}
+
+.carousel__slide img {
+  margin: auto;
+}
+
+.carousel__dots {
+  bottom: -20px !important;
+  margin: 0;
+  transform: translate(0, 50%);
+}
+
+.carousel__dots li button {
+  background: #001529 !important;
+}
+
+.description {
+  margin-top: 20px;
+}
+
+.description :global(.ant-descriptions-item) {
+  padding: 0;
+}
+
+.rating {
+  margin: 12px 0;
+}
+
+.total-rates {
+  margin-left: 12px;
+}
+
+.stats {
+  margin-top: 20px;
+  width: 400px;
+}
+
+.sell-option {
+  height: unset;
+  margin-bottom: 12px;
+}

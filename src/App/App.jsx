@@ -18,15 +18,13 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <Layout>
         <Header />
-        <Layout>
-          <Routes>
-            <Route path="product">
-              <Route path="list" element={<ProductsListPage />} />
-              <Route path=":usin" element={<ProductPage />} />
-            </Route>
-            <Route path="*" element={<Navigate to="/product/list" replace />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          <Route path="product">
+            <Route path="list" element={<ProductsListPage />} />
+            <Route path=":usin" element={<ProductPage />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/product/list" replace />} />
+        </Routes>
       </Layout>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

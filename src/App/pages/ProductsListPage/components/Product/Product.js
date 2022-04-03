@@ -1,21 +1,35 @@
-import * as React from 'react';
 import { Card, Rate, Descriptions, Statistic } from 'antd';
 import Title from 'antd/es/typography/Title';
+import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { getRating } from './utils';
+import { calculateRating } from '../../../../../utils/calculateRating';
+
 import styles from './Product.module.css';
 
 const Product = ({
+  usin,
   title,
   images,
   ratings,
   attributes: { author },
   sellOptions,
 }) => {
-  const [rating] = React.useState(getRating(ratings));
+  const rating = React.useMemo(() => calculateRating(ratings), [ratings]);
+
+  const navigate = useNavigate();
+
+  const onProductClick = React.useCallback(() => {
+    navigate(`/product/${usin}`);
+  }, [usin]);
 
   return (
-    <Card className={styles['product']} hoverable size="small">
+    <Card
+      className={styles['product']}
+      hoverable
+      size="small"
+      onClick={onProductClick}
+    >
       <div
         className={styles['product__image']}
         style={{ backgroundImage: `url(${images[0]})` }}
@@ -24,7 +38,7 @@ const Product = ({
         <Title level={3}>{title}</Title>
         <Rate value={rating.totalRating} allowHalf />
         <span className={styles['product__total-rates']}>
-          {rating.totalRates}
+          {rating.totalRating.toPrecision(3)} ({rating.totalRates} ratings)
         </span>
         <Descriptions className={styles['product__description']}>
           <Descriptions.Item label="Author">{author}</Descriptions.Item>
