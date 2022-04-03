@@ -8,24 +8,27 @@ import EditPage from "./EditPage";
 
 const AppRouter = () => {
 
-    if (localStorage.length === 0) {
-        sample.products.forEach(p =>
-            localStorage.setItem(p.usin, JSON.stringify(p))
-        )
+    const [products, setProducts] = useState(() =>
+        JSON.parse(localStorage.getItem('products') || sample.products))
+
+    const addProduct = newProduct => {
+        const updatedProducts = [...products, newProduct];
+        localStorage.setItem('products', JSON.stringify(updatedProducts));
+        setProducts(updatedProducts)
     }
 
-    const products = []
-    for(let i=0; i<localStorage.length; i++) {
-        console.log(JSON.parse(localStorage.getItem(localStorage.key(i))))
-        products.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+    const updateProduct = (usin, patch) => {
+        const updatedProducts = products.map(p => p.usin === usin ? patch : p)
+        localStorage.setItem('products', JSON.stringify(updatedProducts));
+        setProducts(updatedProducts)
     }
 
     return <BrowserRouter>
         <Routes>
-            <Route path="/products" element={<ProductsPage state={[products]}/>}/>
-            <Route path="/product/:usin" element={<ProductPage state={[products]}/>}/>
-            <Route path="/products/new" element={<FormPage state={[products]}/>}/>
-            <Route path="/product/:usin/edit" element={<EditPage state={[products]}/>}/>
+            <Route path="/products" element={<ProductsPage products={products}/>}/>
+            <Route path="/product/:usin" element={<ProductPage products={products}/>}/>
+            <Route path="/products/new" element={<FormPage products={products} addProduct={addProduct}/>}/>
+            <Route path="/product/:usin/edit" element={<EditPage products={products} updateProduct={updateProduct}/>}/>
         </Routes>
     </BrowserRouter>
 }

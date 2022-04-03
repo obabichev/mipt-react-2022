@@ -3,7 +3,7 @@ import {ErrorMessage, Field, FieldArray, Form, Formik} from 'formik';
 import {useNavigate} from "react-router-dom";
 import {Button, PageHeader, Tabs} from "antd";
 
-const inval = { title: '', description: '', attributes: {
+const initialValues = { title: '', description: '', attributes: {
         "isbn-10": '',
         "isbn-13": '',
         publisher: '',
@@ -31,17 +31,14 @@ export const FormPage = (props) => {
         </PageHeader>
         <h1>Add a new product</h1>
         <Formik
-            initialValues={inval}
+            initialValues={initialValues}
             onSubmit={async (values) => {
                 await new Promise((r) => setTimeout(r, 500));
                 values.ratings = []
                 values.usin = Date.now().toString()
                 values.sellOptions.forEach(option =>
                     option.price = Number.parseInt(option.price))
-                props.state[0].push(values)
-                localStorage.setItem(values.usin, JSON.stringify(values))
-                console.log(JSON.stringify(values, null, 2))
-                alert(JSON.stringify(values, null, 2));
+                props.addProduct(values)
             }}
         >
             {({ values }) => (
@@ -101,7 +98,7 @@ export const FormPage = (props) => {
                             </div>
                         )}
                     </FieldArray>
-                    {Object.keys(inval).map(key => {
+                    {Object.keys(initialValues).map(key => {
                         return !["sellOptions", "images", "attributes"].includes(key)&& <div
                             style={{padding: 20}}>
                             <div>{key}</div>
@@ -114,7 +111,7 @@ export const FormPage = (props) => {
                         <Field name={`images[0]`} />
                         <ErrorMessage name={`images[0]`} component="div" />
                     </div>
-                    {Object.keys(inval.attributes).map(key => {
+                    {Object.keys(initialValues.attributes).map(key => {
                         return <div style={{padding: 20}}>
                             <div>{key}</div>
                             <Field name={`attributes.${key}`} />

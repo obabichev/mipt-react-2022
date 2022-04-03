@@ -101,7 +101,7 @@ const NotFountPage = (
 );
 
 export const ProductPage = (props) => {
-    const products = props.state[0]
+    const products = props.products
     const params = useParams();
     const navigate = useNavigate()
 

@@ -7,9 +7,7 @@ import tagSample from "../mock/tags-sample.json";
 export const EditPage = (props) => {
     const navigate = useNavigate()
     const usin = window.location.pathname.slice(9, -5)
-    console.log(usin)
-    const product = props.state[0].find(p => p.usin === usin)
-    console.log(product)
+    const product = props.products.find(p => p.usin === usin)
 
     return (
         <div>
@@ -23,9 +21,7 @@ export const EditPage = (props) => {
                 initialValues={product}
                 onSubmit={async (values) => {
                     await new Promise((r) => setTimeout(r, 500));
-                    props.state[0][props.state[0].findIndex(p => p.usin === usin)] = values
-                    localStorage.setItem(values.usin, JSON.stringify(values))
-                    alert(JSON.stringify(values, null, 2));
+                    props.updateProduct(usin, values)
                 }}
             >
                 {({ values }) => (

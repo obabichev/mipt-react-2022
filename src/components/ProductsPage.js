@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Breadcrumb, Button, Card, Col, Input, Layout, Menu, Rate, Row} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
@@ -22,15 +22,17 @@ export const renderBySearch = (state, title) => {
 }
 
 export const ProductsPage = (props) => {
-    const products = props.state[0]
+    const products = props.products
     const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;
     const { Meta } = Card;
     const navigate = useNavigate()
     const [text, setText] = useState("")
 
+    const filteredProducts = useMemo(() => products.filter(product => renderBySearch(text, product.title)),
+        [products, text])
+
     const handleOnChange = (event) => {
-        console.log(event.target.value)
         setText(event.target.value)
     }
 
@@ -93,8 +95,8 @@ export const ProductsPage = (props) => {
                         <div className="site-card-wrapper">
                             <Title level={2}>Catalogue</Title>
                             <Row gutter={16}>
-                                {products.map(product =>
-                                    renderBySearch(text, product.title) && <Col key={product.usin} span={8} style={{padding: 20}}>
+                                {filteredProducts.map(product =>
+                                    <Col key={product.usin} span={8} style={{padding: 20}}>
                                         <Card
                                             hoverable
                                             style={{width: 240}}
