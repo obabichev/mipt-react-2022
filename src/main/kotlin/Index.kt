@@ -23,8 +23,5 @@ val Index = FC<Props> {
         h3 {
             +"editProduct/{id} -- редактировать продукт"
         }
-        p {
-            link()
-        }
     }
 }

@@ -47,6 +47,7 @@ val ReactRouterDomApp = FC<Props> {
                 Route {
                     path = "/addProduct"
                     element = ProductAdditing.create()
+
                 }
                 Route {
                     path = "/"
