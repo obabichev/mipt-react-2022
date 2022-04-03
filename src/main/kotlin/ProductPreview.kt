@@ -7,7 +7,7 @@ import react.dom.html.ReactHTML.h5
 import react.dom.html.ReactHTML.img
 
 external interface ProductPreviewProps : Props {
-    var product: Good
+    var product: Product
 }
 
 val ProductPreview = FC<ProductPreviewProps> { props ->
