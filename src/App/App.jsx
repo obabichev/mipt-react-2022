@@ -6,6 +6,8 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 
 import Header from '../components/Header';
 
+import CreateProductPage from './pages/CreateProductPage';
+import EditProductPage from './pages/EditProductPage';
 import ProductsListPage from './pages/ProductsListPage';
 import ProductPage from './pages/ProductPage';
 
@@ -21,6 +23,8 @@ const App = () => (
         <Routes>
           <Route path="product">
             <Route path="list" element={<ProductsListPage />} />
+            <Route path="create" element={<CreateProductPage />} />
+            <Route path="edit/:usin" element={<EditProductPage />} />
             <Route path=":usin" element={<ProductPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/product/list" replace />} />
