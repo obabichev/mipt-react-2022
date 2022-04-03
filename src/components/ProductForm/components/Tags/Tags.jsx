@@ -2,7 +2,7 @@ import * as React from 'react';
 import Title from 'antd/es/typography/Title';
 import { TreeSelect } from 'antd';
 
-import store from '../../../../store';
+import store from '../../../../../store';
 
 const Tags = ({ value, setValue }) => (
   <>

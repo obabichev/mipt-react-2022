@@ -2,7 +2,7 @@ import { Select, Divider, Input, Typography, Space, Form, Row } from 'antd';
 import * as React from 'react';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
-import store from '../../../../../../store';
+import store from '../../../../../../../store';
 
 const SellOption = ({ value, setValue }) => {
   const [options, setOptions] = React.useState(store.productSellOptionsTypes());

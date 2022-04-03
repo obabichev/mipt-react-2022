@@ -3,18 +3,10 @@ import tagsSample from '../mock/tags-sample.json';
 import unflatten from '../utils/unflattenTree';
 import store from './index';
 
-import uuid from 'react-uuid';
-import sellOptions from '../App/pages/CreateProductPage/components/SellOptions';
-
 export default class Store {
   constructor() {
-    if (!this.products()) {
-      localStorage.setItem('products', JSON.stringify(productsSample.products));
-    }
-
-    if (!this.tags()) {
-      localStorage.setItem('tags', JSON.stringify(tagsSample));
-    }
+    localStorage.setItem('products', JSON.stringify(productsSample.products));
+    localStorage.setItem('tags', JSON.stringify(tagsSample));
   }
 
   tags = () => {
@@ -64,46 +56,6 @@ export default class Store {
           author.toLowerCase().includes(value) ||
           description.toLowerCase().includes(value)
       );
-  };
-
-  addProduct = (productData) => {
-    productData.sellOptions = productData.sellOptions.map(() => ({
-      ...sellOptions,
-      currency: 'EUR',
-    }));
-
-    localStorage.setItem(
-      'products',
-      JSON.stringify([
-        ...this.products(),
-        {
-          ...productData,
-          usin: uuid(),
-          ratings: [
-            {
-              rate: 5,
-              amount: 0,
-            },
-            {
-              rate: 4,
-              amount: 0,
-            },
-            {
-              rate: 3,
-              amount: 0,
-            },
-            {
-              rate: 2,
-              amount: 0,
-            },
-            {
-              rate: 1,
-              amount: 0,
-            },
-          ],
-        },
-      ])
-    );
   };
 
   tagsTree = () => {

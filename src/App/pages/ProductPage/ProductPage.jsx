@@ -11,7 +11,7 @@ import {
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import * as React from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import store from '../../../store';
 import { calculateProductRating } from '../../../utils/calculateProductRating';
@@ -23,14 +23,6 @@ import styles from './ProductPage.module.css';
 const ProductPage = () => {
   const { usin } = useParams();
 
-  const product = store.getProductByUsin(usin);
-
-  console.log(product);
-
-  if (!product) {
-    return <Navigate to="/product/list" replace />;
-  }
-
   const {
     images,
     title,
@@ -39,9 +31,15 @@ const ProductPage = () => {
     ratings,
     sellOptions,
     tag,
-  } = product;
+  } = React.useMemo(
+    () => store.products().find((product) => product.usin === usin),
+    [usin]
+  );
 
-  const rating = calculateProductRating(ratings);
+  const rating = React.useMemo(
+    () => calculateProductRating(ratings),
+    [ratings]
+  );
 
   return (
     <Layout>
@@ -97,14 +95,12 @@ const ProductPage = () => {
           <Descriptions.Item label="Dimensions">{dimensions}</Descriptions.Item>
           <Descriptions.Item label="Paperback">{paperback}</Descriptions.Item>
         </Descriptions>
-        {!!rating.totalRates && (
-          <div className={styles['rating']}>
-            <Rate value={rating.totalRating} allowHalf />
-            <span className={styles['total-rates']}>
-              {rating.totalRating.toPrecision(3)} ({rating.totalRates} rates)
-            </span>
-          </div>
-        )}
+        <div className={styles['rating']}>
+          <Rate value={rating.totalRating} allowHalf />
+          <span className={styles['total-rates']}>
+            {rating.totalRating.toPrecision(3)} ({rating.totalRates} rates)
+          </span>
+        </div>
         <div className={styles['stats']}>
           {ratings.map(({ rate, amount }) => (
             <div key={rate}>
