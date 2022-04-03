@@ -37,5 +37,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://ultimate-ecommerce.v-query.com"
+  "proxy": "https://ultimate-ecommerce.v-query.com",
+  "devDependencies": {
+    "prettier": "^2.6.1"
+  }
 }
