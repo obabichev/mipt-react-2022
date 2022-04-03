@@ -1,35 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import {ProductsPage} from "./ProductsPage";
 import {ProductPage} from "./ProductPage";
 import {Test} from "./Test";
 import {LocalStorageTest} from "./LocalStorageTest";
 import {UseIntervalTest} from "./UseIntervalTest";
-import {Layout, Tree} from "antd";
+import {Layout, Button} from "antd";
 import {ProductsSearch} from "./ProductsSearch";
+import {ProductForm} from "./ProductForm";
+import {TagTree} from "./TagTree";
 const { Header, Sider, Content } = Layout;
 
 const AppRouter = () => {
-    const treeData = [
-        {
-            title: 'future tag tree',
-            key: '0-0',
-            children: [],
-        },
-    ];
+
+    const [formVisible, setFormVisible] = useState(false)
+
+    const closeForm = () => {
+        setFormVisible(false)
+    }
+
 
     return <>
+        <ProductForm close_form={closeForm} formVisible={formVisible}/>
         <Layout>
-            <Header className="header">
+            <Header className="header" style={{display: "flex", justifyContent:"space-between"}}>
                 <ProductsSearch/>
+                <div style={{ height: "inherit"}}>
+                    <Button onClick={() => {setFormVisible(true)}}>Create new product</Button>
+                </div>
             </Header>
             <Layout>
                 <Sider width={180} className="site-layout-background" theme="light">
-                    <Tree
-                        style={{ height: '100%', borderRight: 0 }}
-                        defaultExpandAll={true}
-                        treeData={treeData}
-                    />
+                    <TagTree/>
                 </Sider>
                 <Content  style={{
                     padding: 24,
