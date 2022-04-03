@@ -1,14 +1,26 @@
 .product {
+  margin: 12px 0;
+}
+
+.product > :global(.ant-card-body) {
   display: flex;
   align-items: center;
 }
 
+.product__image {
+  height: 220px;
+  width: 165px;
+  background: no-repeat center / contain;
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+
 .product__total-rates {
-  margin-left: 10px;
+  margin-left: 12px;
 }
 
 .product__description {
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .sell-options {

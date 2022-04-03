@@ -1,0 +1,12 @@
+.logo {
+  color: white;
+  display: inline-block;
+  height: initial;
+  line-height: initial;
+}
+
+.logo__text {
+  font-weight: bold;
+  position: relative;
+  top: -2.5px;
+}
