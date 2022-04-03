@@ -4,20 +4,20 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 
-import store from '../../store';
+import store from '../../../store';
 
 import Attributes from './components/Attributes';
 import Tags from './components/Tags';
 import SellOptions from './components/SellOptions';
 import Images from './components/Images';
 
-import styles from './ProductForm.module.css';
+import styles from './CreateProductPage.module.css';
 
-const ProductForm = ({ productData }) => {
+const CreateProductPage = () => {
   const navigate = useNavigate();
 
   const formik = useFormik({
-    initialValues: productData || {
+    initialValues: {
       title: '',
       description: '',
       attributes: store.productAttributes(),
@@ -26,7 +26,8 @@ const ProductForm = ({ productData }) => {
       tag: '',
     },
     onSubmit: (values) => {
-      store.addProduct(values, () => navigate('/list'));
+      store.addProduct(values);
+      navigate('/list');
     },
   });
 
@@ -75,7 +76,7 @@ const ProductForm = ({ productData }) => {
           />
 
           <Button type="primary" onClick={formik.handleSubmit}>
-            {!productData ? 'Add product' : 'Edit product'}
+            Add product
           </Button>
         </Form>
       </Layout.Content>
@@ -83,4 +84,4 @@ const ProductForm = ({ productData }) => {
   );
 };
 
-export default ProductForm;
+export default CreateProductPage;

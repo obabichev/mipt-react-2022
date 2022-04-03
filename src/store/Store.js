@@ -4,7 +4,7 @@ import unflatten from '../utils/unflattenTree';
 import store from './index';
 
 import uuid from 'react-uuid';
-import sellOptions from '../components/ProductForm/components/SellOptions';
+import sellOptions from '../App/pages/CreateProductPage/components/SellOptions';
 
 export default class Store {
   constructor() {
@@ -66,61 +66,44 @@ export default class Store {
       );
   };
 
-  addProduct = (productData, onSuccess) => {
-    if (!productData.usin) {
-      productData.sellOptions = productData.sellOptions.map(() => ({
-        ...sellOptions,
-        currency: 'EUR',
-      }));
-      productData.usin = uuid();
-      productData.ratings = [
+  addProduct = (productData) => {
+    productData.sellOptions = productData.sellOptions.map(() => ({
+      ...sellOptions,
+      currency: 'EUR',
+    }));
+
+    localStorage.setItem(
+      'products',
+      JSON.stringify([
+        ...this.products(),
         {
-          rate: 5,
-          amount: 0,
+          ...productData,
+          usin: uuid(),
+          ratings: [
+            {
+              rate: 5,
+              amount: 0,
+            },
+            {
+              rate: 4,
+              amount: 0,
+            },
+            {
+              rate: 3,
+              amount: 0,
+            },
+            {
+              rate: 2,
+              amount: 0,
+            },
+            {
+              rate: 1,
+              amount: 0,
+            },
+          ],
         },
-        {
-          rate: 4,
-          amount: 0,
-        },
-        {
-          rate: 3,
-          amount: 0,
-        },
-        {
-          rate: 2,
-          amount: 0,
-        },
-        {
-          rate: 1,
-          amount: 0,
-        },
-      ];
-
-      localStorage.setItem(
-        'products',
-        JSON.stringify([...this.products(), productData])
-      );
-
-      onSuccess(`/product/edit/${productData.usin}`);
-    } else {
-      const newProducts = this.products();
-
-      const productIndex = newProducts.findIndex(
-        ({ usin }) => usin === productData.usin
-      );
-
-      newProducts[productIndex] = {
-        ...newProducts[productIndex],
-        ...productData,
-      };
-
-      localStorage.setItem('products', JSON.stringify(newProducts));
-      onSuccess(`/product/list`);
-    }
-  };
-
-  getProductByUsin = (productUsin) => {
-    return this.products().find(({ usin }) => usin === productUsin);
+      ])
+    );
   };
 
   tagsTree = () => {
