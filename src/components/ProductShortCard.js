@@ -14,7 +14,7 @@ export const ProductShortCard = ({product}) => {
               bodyStyle={{ paddingTop: 16, paddingBottom: 16, display: 'flex', flexDirection: 'column', alignContent:'space-between'}}>
             <Text mark>by {product.attributes.author}</Text>
             <Space>
-                {product.sellOptions.map(option => <Card headStyle={{ height: 40}} title={option.type}>{option.price}
+                {product.sellOptions && product.sellOptions.map(option => <Card headStyle={{ height: 40}} title={option.type}>{option.price}
                     {option.currency === "EUR" ? '€' : option.currency}</Card>)}
             </Space>
         </Card>

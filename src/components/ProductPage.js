@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import tagSample from "../mock/tags-sample.json";
 import {useParams, Link} from "react-router-dom";
 import {Result, Button, Space, Image, Card, Typography, Rate, Popover, Progress, Breadcrumb} from 'antd';
-import sample from "../mock/products-sample.json";
 import Icon, { BarcodeOutlined, IdcardOutlined, CopyOutlined,  BookOutlined, TranslationOutlined, FieldNumberOutlined, FullscreenOutlined } from '@ant-design/icons';
+import {useLocalStorage, findTag} from "../utils";
+import {ProductForm} from "./ProductForm";
 const { Title } = Typography;
 
+
+
 export const ProductPage = () => {
+
+    const [editFormVisible, setEditFormVisible] = useState(false)
+    const [productList, setProductList ] = useLocalStorage();
 
     const params = useParams();
 
@@ -20,7 +26,7 @@ export const ProductPage = () => {
         "dimensions": FullscreenOutlined
     }
 
-    const product = sample.products.find(p => p.usin === params.usin);
+    let product = productList.find(p => p.usin === params.usin);
 
 
     if (!product) {
@@ -32,19 +38,18 @@ export const ProductPage = () => {
         />
     }
 
-    function findTag(tag) {
-        return tagSample.find(t => t.key === tag)
+    let tags = null
+    if (findTag(product.tag)) {
+        let tags_r = [findTag(product.tag).title];
+        let t_parent = findTag(product.tag).parent
+        while (t_parent) {
+            tags_r.push(findTag(t_parent).title)
+            t_parent = findTag(t_parent).parent
+        }
+        tags = tags_r.reverse()
     }
 
-    let tags_r = [findTag(product.tag).title];
-    let t_parent = findTag(product.tag).parent
-    while (t_parent) {
-        tags_r.push(findTag(t_parent).title)
-        t_parent = findTag(t_parent).parent
-    }
-    const tags = tags_r.reverse()
-
-    let totalRatings = product.ratings.reduce((a, b) => (
+    let totalRatings = product.ratings ? product.ratings.reduce((a, b) => (
             {
                 sum: a.sum + b.rate * b.amount,
                 amount: a.amount + b.amount
@@ -54,30 +59,46 @@ export const ProductPage = () => {
             sum: 0,
             amount: 0
         }
-    );
-    const overallRating = (totalRatings.sum / totalRatings.amount).toFixed(2)
+    ) : {
+        sum: 0,
+        amount: 0
+    };
+    const overallRating = product.ratings ? (totalRatings.sum / totalRatings.amount).toFixed(2) : 0;
+
+    const closeEditForm = () => {
+        setEditFormVisible(false)
+    }
+
+    const deleteProduct = (usin) => {
+        setProductList(productList.filter(product => product.usin !== usin ))
+    }
 
     return  <>
-        <Breadcrumb style={{ marginBottom: 15}}>
+        {editFormVisible && <ProductForm product={product} close_form={closeEditForm} formVisible={editFormVisible}/>}
+        {tags !== null && <Breadcrumb style={{marginBottom: 15}}>
             {tags.map(tag => <Breadcrumb.Item>{tag}</Breadcrumb.Item>)}
-        </Breadcrumb>
+        </Breadcrumb>}
         <Space align="start">
+            <Space direction="vertical" align="center">
                 <Image
                     width={300}
                     src={product.images[0]}
                 />
+                <Button style={{width: 300}} onClick={() => {setEditFormVisible(true)}}>Edit this product</Button>
+                <Button style={{width: 300}} danger onClick={() => {deleteProduct(product.usin)}}>Delete product</Button>
+            </Space>
             <div style={{ width: "calc(90vw - 500px)"}}>
                 <Title ellipsis={{ rows: 2, expandable: true }} level={3}>{product.title}</Title>
             <Card bordered={false} title={
                 <Space direction="vertical">
                     {"Author(s): "+product.attributes.author}
-                    <Popover content={
+                    { product.ratings && <Popover content={
                             product.ratings.map(rating =>
                                 <div>{rating.rate}<Progress strokeColor={{from:'#ffa500', to:'#ffff00'}} percent={Math.round((rating.amount / totalRatings.amount).toFixed(2)*100)}/></div>
                             )
                     } title={'Rating statistics'}>
                         <div>{overallRating.toString()+' '}<Rate allowHalf disabled defaultValue={ Math.round(overallRating*2)/2}/></div>
-                    </Popover>
+                    </Popover> }
                 </Space>
                 }>
                 <Space direction="vertical" align="start">

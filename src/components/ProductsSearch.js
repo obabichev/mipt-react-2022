@@ -1,17 +1,45 @@
-import {useState} from "react";
-import { Typography } from "antd";
+import React, {useState} from "react";
+import { Typography, List, Avatar} from "antd";
+import {useLocalStorage} from "../utils";
+
 const { Text } = Typography;
 
 export const ProductsSearch = () => {
-    const [text, setText] = useState("")
+    const [productList, setProductList ]= useLocalStorage()
 
-    const handleOnChange = (event) => {
-        setText(event.target.value.toUpperCase())
+    const [text, setText] = useState("")
+    const [listVisible, setListVisible] = useState(false)
+    console.log(text !== "")
+    if (listVisible !== (text !== "")) {
+        setListVisible(text !== "")
     }
 
-    return <div style={{border: "solid 1px green", margin: 10, height: 42 }}>
-        <Text type="warning">Someday search will be here</Text>
-        <input style={{ height: 30, position: "absolute", margin: 5}} value={text} onChange={handleOnChange}/>
-        <b>{text}</b>
+    const handleOnChange = (event) => {
+        setText(event.target.value.toLowerCase())
+    }
+
+    return <div style={{ height: "inherit"}}>
+        <input placeholder="Search for product here" style={{ height: 30, margin: 5, width: 500}} value={text} onChange={handleOnChange}/>
+        {listVisible && <List
+            style={{width: 500,
+                border: "solid 1px gray",
+                marginLeft: '5px',
+                position: "relative",
+                marginTop: '-17px',
+                zIndex: '100',
+                backgroundColor: 'white'}
+        }
+            itemLayout="horizontal"
+            dataSource={productList.filter(product => product.title.toLowerCase().includes(text))}
+            renderItem={item => (
+                <List.Item>
+                    <List.Item.Meta
+                        avatar={<Avatar src={item.images[0]} />}
+                        title={<a href={'/product/'+item.usin}>{item.title}</a>}
+                        description= {<Text>by {item.attributes.author}</Text>}
+                    />
+                </List.Item>
+            )}
+        />}
     </div>
 }
