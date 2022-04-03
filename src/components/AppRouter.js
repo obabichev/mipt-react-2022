@@ -9,7 +9,7 @@ import EditPage from "./EditPage";
 const AppRouter = () => {
 
     const [products, setProducts] = useState(() =>
-        JSON.parse(localStorage.getItem('products') || sample.products))
+        JSON.parse(localStorage.getItem('products') || JSON.stringify(sample.products)))
 
     const addProduct = newProduct => {
         const updatedProducts = [...products, newProduct];
