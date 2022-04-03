@@ -2,12 +2,13 @@ import { Input, Layout } from 'antd';
 import * as React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import store from '../../../store';
+import tagsSample from '../../../mock/tags-sample.json';
 
 import Product from './components/Product';
 import Tags from './components/Tags';
 
 import styles from './ProductsListPage.module.css';
+import { searchProduct } from './utils';
 
 const ProductsListPage = () => {
   const [searchParams] = useSearchParams();
@@ -15,11 +16,11 @@ const ProductsListPage = () => {
     searchParams.get('search') || null
   );
 
-  const [products, setProducts] = React.useState(store.searchProduct(searchValue));
+  const [products, setProducts] = React.useState(searchProduct(searchValue));
 
   const onSearchProduct = React.useCallback((searchValue) => {
     setSearchValue(searchValue || null);
-    setProducts(store.searchProduct(searchValue));
+    setProducts(searchProduct(searchValue));
   }, []);
 
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const ProductsListPage = () => {
       path: '/',
       search: !searchValue ? '' : `?search=${searchValue}`,
     });
-  }, [navigate, searchValue]);
+  }, [searchValue]);
 
   return (
     <Layout>
@@ -39,7 +40,7 @@ const ProductsListPage = () => {
         collapsible={false}
         width={250}
       >
-        <Tags tagsTree={store.tags()} />
+        <Tags tagsTree={tagsSample} />
       </Layout.Sider>
       <Layout.Content className={styles['content']}>
         <Input.Search
