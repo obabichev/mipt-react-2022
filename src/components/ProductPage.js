@@ -1,14 +1,15 @@
 import React from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import sample from "../mock/products-sample.json";
 import "../css/ProductPage.css"
 import Button from 'react-bootstrap/Button'
+import {ProductsData} from "./storage/ProductsData.js"
 
 export const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate()
+    const productsData = new ProductsData();
 
-    const product = sample.products.find(p => p.usin === params.usin);
+    const product = productsData.get().find(p => p.usin === params.usin);
 
     if (!product) {
         return <div>
@@ -29,6 +30,7 @@ export const ProductPage = () => {
                     {product.description}
                 </div>
                 <Button style={{width: "20%", marginBottom: "0.5%"}}variant="outline-dark" size="lg" onClick={() => navigate("/products")}>Back</Button>
+                <Button style={{width: "20%", marginBottom: "0.5%"}}variant="outline-dark" size="lg" onClick={() => navigate(`/create_product/${params.usin}`)}>Edit</Button>
             </div>
         </div>
     </div>
