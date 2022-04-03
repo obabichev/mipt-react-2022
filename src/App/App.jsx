@@ -6,23 +6,23 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import ProductsListPage from './pages/ProductsListPage';
 import ProductPage from './pages/ProductPage';
 
+import './App.css';
+
 const queryClient = new QueryClient();
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <Routes>
-          <Route path="product">
-            <Route path="list" element={<ProductsListPage />} />
-            <Route path=":id" element={<ProductPage />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/product/list" replace />} />
-        </Routes>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </BrowserRouter>
-  );
-};
+const App = () => (
+  <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <Routes>
+        <Route path="product">
+          <Route path="list" element={<ProductsListPage />} />
+          <Route path=":usin" element={<ProductPage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/product/list" replace />} />
+      </Routes>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  </BrowserRouter>
+);
 
 export default App;

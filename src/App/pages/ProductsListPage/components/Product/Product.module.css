@@ -1,0 +1,25 @@
+.product {
+  display: flex;
+  align-items: center;
+}
+
+.product__total-rates {
+  margin-left: 10px;
+}
+
+.product__description {
+  margin-top: 10px;
+}
+
+.sell-options {
+  display: flex;
+}
+
+.sell-options__item {
+  margin-right: 20px;
+  text-align: center;
+}
+
+.sell-options__item:last-child {
+  margin-right: 0;
+}
