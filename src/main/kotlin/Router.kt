@@ -23,16 +23,31 @@ val ReactRouterDomApp = FC<Props> {
                         +"List"
                     }
                 }
+                li {
+                    Link {
+                        to = "/addProduct"
+                        +"Add product"
+                    }
+                }
             }
 
             Routes {
                 Route {
                     path = "/:id"
-                    element = GoodDescription.create()
+                    element = ProductDescription.create()
+                }
+                Route {
+                    path = "/list/editProduct/:id"
+                    element = ProductEditing.create()
                 }
                 Route {
                     path = "/list"
-                    element = GoodsList.create()
+                    element = ProductCatalog.create()
+                }
+                Route {
+                    path = "/addProduct"
+                    element = ProductAdditing.create()
+
                 }
                 Route {
                     path = "/"

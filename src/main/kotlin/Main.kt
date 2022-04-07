@@ -17,7 +17,7 @@ data class SellOption(
 )
 
 @Serializable
-data class Good(
+data class Product(
     val usin: String,
     val title: String,
     val description: String,

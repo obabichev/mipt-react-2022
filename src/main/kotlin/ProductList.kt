@@ -4,9 +4,9 @@ import react.dom.html.ReactHTML.p
 import react.router.dom.Link
 
 external interface ProductListProps : Props {
-    var products: List<Good>
-    var selectedProduct: Good?
-    var onSelectProduct: (Good) -> Unit
+    var products: List<Product>
+    var selectedProduct: Product?
+    var onSelectProduct: (Product) -> Unit
 }
 
 val ProductList = FC<ProductListProps> { props ->
@@ -20,7 +20,11 @@ val ProductList = FC<ProductListProps> { props ->
                 +"${product.attributes.author}: ${product.title}  "
                 Link {
                     to = "/${product.usin}"
-                    +"Read More"
+                    +"Read More "
+                }
+                Link {
+                    to = "editProduct/${product.usin}"
+                    +" Edit"
                 }
             }
         }

@@ -11,36 +11,37 @@ import react.dom.html.ReactHTML.h5
 import react.router.useLocation
 import kotlin.math.floor
 
-external interface GoodProps : Props {
-    var good : Good
+external interface ProductProps : Props {
+    var Product : Product
 }
 
-fun inMemoryData(id : String) : Good {
-    var result : Good = Good("", "", "",
+fun inMemoryData(id : String) : Product {
+    var result : Product = Product("", "", "",
         Attributes("", "", "", "", "", "", ""),
         arrayListOf(), arrayListOf(), arrayListOf(), "")
-    fetchData().forEach {
+    productList.forEach {
         if (it.usin == id) {
             result = it
         }
     }
+    console.log(result.title)
     return result
 }
 
-fun getMarks(good : Good) : Pair<Long, Long> {
+fun getMarks(Product : Product) : Pair<Long, Long> {
     var countOfMarks = 0L
     var amountofMarks = 0L
-    good.ratings.forEach {
+    Product.ratings.forEach {
         countOfMarks += it.amount
         amountofMarks += it.rate * it.amount
     }
     return Pair(amountofMarks, countOfMarks)
 }
 
-val GoodDescription = FC<GoodProps> { _ ->
-    var good = useLocation().pathname
-    good = good.subSequence(1, good.length).toString()
-    var data = inMemoryData(good)
+val ProductDescription = FC<ProductProps> { _ ->
+    var Product = useLocation().pathname
+    Product = Product.subSequence(1, Product.length).toString()
+    var data = inMemoryData(Product)
 
     div {
         css {
@@ -77,16 +78,16 @@ val GoodDescription = FC<GoodProps> { _ ->
             }
         }
         h3 {
-            +"count: ${getMarks(inMemoryData(good)).second.toDouble()}"
+            +"Count: ${getMarks(inMemoryData(Product)).second.toDouble()}"
         }
         h3 {
-            +"amount: ${getMarks(inMemoryData(good)).first.toDouble()}"
+            +"Amount: ${getMarks(inMemoryData(Product)).first.toDouble()}"
         }
         h3 {
-            +"Средняя оценка: ${floor(((getMarks(inMemoryData(good)).first.toDouble() / getMarks(inMemoryData(good)).second.toDouble())) * 10.0) / 10.0}"
+            +"Средняя оценка: ${floor(((getMarks(inMemoryData(Product)).first.toDouble() / getMarks(inMemoryData(Product)).second.toDouble())) * 10.0) / 10.0}"
         }
         h3 {
-            +"Всего оценок: ${getMarks(inMemoryData(good)).first}"
+            +"Всего оценок: ${getMarks(inMemoryData(Product)).first}"
         }
         h5 {
             +"Publisher${data.attributes.publisher}"
