@@ -1,0 +1,37 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
+
+.main-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.25%;
+}
+
+.horizontal-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.horizontal-margin {
+    margin-right: 5px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 70%;
+}
