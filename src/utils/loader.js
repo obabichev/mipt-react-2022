@@ -1,9 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
-
-
-const wait = (result, timeout = 1000) => new Promise(
-    (resolve, reject) => setTimeout(() => resolve(result), timeout)
-);
+import {useEffect, useState} from 'react';
 
 export const getRequest = (url) => fetch(url)
     .then(response => {
@@ -12,11 +7,17 @@ export const getRequest = (url) => fetch(url)
         }
         return response.json()
     })
-    //.then(data => wait(data, 2000))
 
 
 export const getTags = () => getRequest("/api/service-product/tag")
-export const getProduct = (id) => getRequest(`https://ultimate-ecommerce.v-query.com/api/service-product/search/${id}`)
+export const getProduct = (id) => getRequest(`/api/service-product/search/${id}`)
+export const getProducts = (query, tag) => {
+    if (query !== '') {
+        return getRequest(`/api/service-product/search?text=${query}&tag=${tag}`);
+    } else {
+        return getRequest(`/api/service-product/search?text=${tag}&tag=${query}`);
+    }
+}
 
 export const useLoading = (fn) => {
     const [loading, setLoading] = useState(false);
@@ -29,7 +30,6 @@ export const useLoading = (fn) => {
         setError(null);
         fn()
             .then(data => {
-                console.log('Data=' + data)
                 setValue(data)
             })
             .catch(err => {
@@ -39,8 +39,6 @@ export const useLoading = (fn) => {
                 setLoading(false)
             })
     }, [fn])
-
-    console.log('Arslan has value=' + value)
 
     return {loading, error, data: value}
 }
