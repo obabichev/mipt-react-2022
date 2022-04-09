@@ -1,11 +1,28 @@
+import React, {useCallback} from 'react';
+
 import {TagsTree} from 'utils/tag-tree'
 import {Link} from "react-router-dom";
+
+import {useLoading, getTags} from 'utils/loader'
 
 import './ProductTag.css'
 
 
 export const ProductTag = ({tag}) => {
-    const tagsTree = new TagsTree();
+    const getProductTags = useCallback(
+        () => getTags(),
+        [])
+    const myTags = useLoading(getProductTags);
+
+    if (myTags.error){
+        return <span>Error loading tags</span>
+    }
+
+    if (!myTags.data || myTags.loading) {
+        return <span>Loading tags</span>
+    }
+
+    const tagsTree = new TagsTree(myTags.data);
     const parentTagsList = tagsTree.tagParentsList(tag);
     return <span>
         {

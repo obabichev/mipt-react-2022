@@ -1,12 +1,14 @@
+import React, {useCallback} from 'react';
+
+
 import { Container } from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import {TagsTree} from 'utils/tag-tree'
+import {useLoading, getTags} from 'utils/loader'
 
 import './ProductTags.css'
 
 export const ProductTags = ({tag}) => {
-    let tagsTree = new TagsTree();
-
     const TagList = (props) => {
         const rootTag = tagsTree.get(props.rootTag);        
         return <li className="product-tags__item">
@@ -29,6 +31,18 @@ export const ProductTags = ({tag}) => {
         </ul>
     }
 
+    const getProductTags = useCallback(
+        () => getTags(),
+        [])
+    const myTags = useLoading(getProductTags);
+    if (myTags.error){
+        return <span>Error loading tags</span>
+    }
+    if (!myTags.data || myTags.loading) {
+        return <span>Loading tags</span>
+    }
+
+    let tagsTree = new TagsTree(myTags.data);
     let mainTag = tag === undefined ? null : tag;
 
     return <Container className="product-tags">

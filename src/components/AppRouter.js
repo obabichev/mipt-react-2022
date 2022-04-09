@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ProductsPage} from "./ProductsPage";
 import {ProductPage} from "./ProductPage";
 import {ProductEdit} from "./ProductEdit";
+import {TestServerApi} from "./TestServerApi";
 
 const AppRouter = () => {
     return <BrowserRouter basename="/">

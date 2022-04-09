@@ -1,12 +1,13 @@
-import tags from "mock/tags-sample.json";
+//import tags from "mock/tags-sample.json";
 
 /*
 Builds tag tree in memory with fake root vertex corresponding to null key
 */
 
 export class TagsTree {
-    constructor() {
+    constructor(tags) {
         let tagsTree = {};
+        if (tags) {
         tags.forEach(tag => {
             let tagChildren = tagsTree[tag.title] === undefined ? [] : tagsTree[tag.title]["children"];
             tagsTree[tag.key] = {
@@ -25,6 +26,7 @@ export class TagsTree {
         tagsTree[null].key = "";
         tagsTree[null].parent = null;
         tagsTree[null].title = "All";
+        }
         this.tagsTree = tagsTree;
     }
 
