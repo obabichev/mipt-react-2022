@@ -12,7 +12,15 @@ import './ProductCard.css'
 
 
 export const ProductCard = (props) => {
-    let product = props.product;
+    let productResponse = props.product;
+    if (productResponse.error) {
+        return <div>Error loading productinfo</div>
+    }
+    // nullptr exception causes crash before loading flag is set, so
+    if (!productResponse.data || productResponse.loading) {
+        return <div>Loading product...</div>
+    }
+    let product = productResponse.data;
     return <Container className="product-card">
         <Row>
             <Col md="auto">

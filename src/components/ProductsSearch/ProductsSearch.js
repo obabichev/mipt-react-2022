@@ -13,7 +13,7 @@ export const ProductsSearch = ({query, handler}) => {
     return <form>
         <div className="form-group row search-form">
         <div className="col col-sm-9">
-            <input placeholder="Search" class="form-control" value={query} onChange={handleOnChange}/>
+            <input placeholder="Search" className="form-control" value={query} onChange={handleOnChange}/>
         </div>
         <div className="col col-sm-3">
             <button
