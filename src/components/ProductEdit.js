@@ -1,12 +1,11 @@
 import React from 'react';
-import {useCallback, useState} from "react";
+import {useCallback} from "react";
 import { Container } from 'react-bootstrap';
 import {useParams, useNavigate} from "react-router-dom";
 
 import { Formik, Form, Field, FieldArray } from 'formik';
 
 import tags from "mock/tags-sample.json";
-import {ProductList} from 'utils/product-list'
 import {useLoading} from 'utils/loader'
 import {getProduct} from 'utils/loader'
 
@@ -14,7 +13,6 @@ import {getProduct} from 'utils/loader'
 export const ProductEdit = () => {
     const params = useParams();
     const navigate = useNavigate();
-    let productList = new ProductList();
     const getCurrentProduct = useCallback(
         () => getProduct(params.usin),
         [params])
