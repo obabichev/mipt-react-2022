@@ -3,7 +3,7 @@ import Title from 'antd/es/typography/Title';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { calculateRating } from '../../../../../utils/calculateRating';
+import { calculateProductRating } from '../../../../../utils/calculateProductRating';
 
 import styles from './Product.module.css';
 
@@ -15,7 +15,7 @@ const Product = ({
   attributes: { author },
   sellOptions,
 }) => {
-  const rating = React.useMemo(() => calculateRating(ratings), [ratings]);
+  const rating = React.useMemo(() => calculateProductRating(ratings), [ratings]);
 
   const navigate = useNavigate();
 

@@ -14,7 +14,7 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 
 import productsSample from '../../../mock/products-sample';
-import { calculateRating } from '../../../utils/calculateRating';
+import { calculateProductRating } from '../../../utils/calculateProductRating';
 
 import Breadcrumbs from './components/Breadcrumbs';
 
@@ -36,7 +36,10 @@ const ProductPage = () => {
     [usin]
   );
 
-  const rating = React.useMemo(() => calculateRating(ratings), [ratings]);
+  const rating = React.useMemo(
+    () => calculateProductRating(ratings),
+    [ratings]
+  );
 
   return (
     <Layout>
