@@ -2,7 +2,6 @@ import React from 'react';
 import {ErrorMessage, Field, FieldArray, Form, Formik} from 'formik';
 import {useNavigate} from "react-router-dom";
 import {Button, PageHeader, Tabs} from "antd";
-import tagSample from "../mock/tags-sample.json";
 
 export const EditPage = (props) => {
     const navigate = useNavigate()
@@ -22,6 +21,21 @@ export const EditPage = (props) => {
                 onSubmit={async (values) => {
                     await new Promise((r) => setTimeout(r, 500));
                     props.updateProduct(usin, values)
+                    await fetch('https://ultimate-ecommerce.v-query.com/api/service-boarding/boarding', {
+                        method: 'PUT',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(values)
+                    }).then((response) => {
+                        return response.json();
+                    })
+                        .then((data) => {
+                            values.usin = data.usin
+                            props.updateProduct(values.usin, values)
+                            navigate(`/product/${values.usin}`)
+                        });
                 }}
             >
                 {({ values }) => (

@@ -5,6 +5,11 @@ import {ProductPage} from "./ProductPage";
 import {FormPage} from "./FormPage";
 import sample from "../mock/products-sample.json";
 import EditPage from "./EditPage";
+import {TestServerApi} from "./TestServerApi";
+import {QueryClient, QueryClientProvider} from "react-query";
+import {ReactQueryDevtools} from 'react-query/devtools'
+
+const queryClient = new QueryClient()
 
 const AppRouter = () => {
 
@@ -24,12 +29,16 @@ const AppRouter = () => {
     }
 
     return <BrowserRouter>
-        <Routes>
-            <Route path="/products" element={<ProductsPage products={products}/>}/>
-            <Route path="/product/:usin" element={<ProductPage products={products}/>}/>
-            <Route path="/products/new" element={<FormPage products={products} addProduct={addProduct}/>}/>
-            <Route path="/product/:usin/edit" element={<EditPage products={products} updateProduct={updateProduct}/>}/>
-        </Routes>
+        <QueryClientProvider client={queryClient}>
+            <Routes>
+                <Route path="/products" element={<ProductsPage products={products}/>}/>
+                <Route path="/product/:usin" element={<ProductPage products={products}/>}/>
+                <Route path="/products/new" element={<FormPage products={products} addProduct={addProduct}/>}/>
+                <Route path="/product/:usin/edit" element={<EditPage products={products} updateProduct={updateProduct}/>}/>
+                <Route path="/server" element={<TestServerApi/>}/>
+            </Routes>
+            <ReactQueryDevtools initialIsOpen={false}/>
+        </QueryClientProvider>
     </BrowserRouter>
 }
 

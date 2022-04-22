@@ -35,10 +35,24 @@ export const FormPage = (props) => {
             onSubmit={async (values) => {
                 await new Promise((r) => setTimeout(r, 500));
                 values.ratings = []
-                values.usin = Date.now().toString()
+                //values.usin = Date.now().toString()
                 values.sellOptions.forEach(option =>
                     option.price = Number.parseInt(option.price))
-                props.addProduct(values)
+                await fetch('https://ultimate-ecommerce.v-query.com/api/service-boarding/boarding', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(values)
+                }).then((response) => {
+                    return response.json();
+                })
+                    .then((data) => {
+                        values.usin = data.usin
+                        props.addProduct(values)
+                        navigate(`/product/${values.usin}`)
+                    });
             }}
         >
             {({ values }) => (

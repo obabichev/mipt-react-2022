@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Breadcrumb, Button, Card, Col, Input, Layout, Menu, Rate, Row} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
@@ -17,9 +17,6 @@ export const sumRating = rating => {
     return [sumAmount, sumRating]
 }
 
-export const renderBySearch = (state, title) => {
-    return title.toLowerCase().includes(state.toLowerCase());
-}
 
 export const ProductsPage = (props) => {
     const products = props.products
@@ -28,9 +25,37 @@ export const ProductsPage = (props) => {
     const { Meta } = Card;
     const navigate = useNavigate()
     const [text, setText] = useState("")
+    const [filteredProducts, setFilteredProducts] = useState(products)
 
-    const filteredProducts = useMemo(() => products.filter(product => renderBySearch(text, product.title)),
-        [products, text])
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    useEffect(() =>
+        {
+            setLoading(true);
+            setError(null);
+            if(text !== "") {
+                fetch('https://ultimate-ecommerce.v-query.com/api/service-product/search?text=' + text)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        setFilteredProducts(data)
+                    }).catch(err => {
+                    setError(err);
+                })
+                    .finally(() => {
+                        setLoading(false)
+                    });
+            }
+            else {
+                setFilteredProducts(products)
+                setLoading(false)
+            }
+        }
+
+        , [products, text])
+
 
     const handleOnChange = (event) => {
         setText(event.target.value)
@@ -94,7 +119,13 @@ export const ProductsPage = (props) => {
                     {(
                         <div className="site-card-wrapper">
                             <Title level={2}>Catalogue</Title>
-                            <Row gutter={16}>
+                            {loading && <div>
+                                <h2>Loading...</h2>
+                            </div>}
+                            {error && <div>
+                                <h2>{error}</h2>
+                            </div>}
+                            {!loading && !error && <Row gutter={16}>
                                 {filteredProducts.map(product =>
                                     <Col key={product.usin} span={8} style={{padding: 20}}>
                                         <Card
@@ -113,7 +144,8 @@ export const ProductsPage = (props) => {
                                                 className="ant-rate-text">{"(" + sumRating(product.ratings)[0] + ")"}</span>
                                         </Card>
                                     </Col>)}
-                            </Row>
+                            </Row>}
+
                         </div>
                     )}
                 </Content>

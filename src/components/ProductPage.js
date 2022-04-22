@@ -1,14 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import sample from "../mock/products-sample.json";
 
 import {PageHeader, Tabs, Button, Statistic, Descriptions, Rate, Col, Row, Breadcrumb} from 'antd';
 import {sumRating} from "./ProductsPage";
-import tagSample from "../mock/tags-sample.json";
 
 const { TabPane } = Tabs;
 
-const tagTree = tag => {
+const tagTree = (tag, tagSample) => {
     let tKey = tagSample.find(t => t.key === tag);
     let tags = []
     while (tKey) {
@@ -100,13 +98,64 @@ const NotFountPage = (
     </div>
 );
 
+export const LoadingPage = (
+    <div>
+        <h2>Loading...</h2>
+    </div>
+);
+
 export const ProductPage = (props) => {
     const products = props.products
     const params = useParams();
     const navigate = useNavigate()
 
-    const product = products.find(p => p.usin === params.usin);
+    const [product, setProduct] = useState(null)//products.find(p => p.usin === params.usin);
+    const [tagSample, setTags] = useState(null)
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
+    useEffect(() =>
+        {
+
+                setLoading(true);
+                setError(null);
+                let loadProd = true
+                let loadTag = true
+                fetch('https://ultimate-ecommerce.v-query.com/api/service-product/search/' + params.usin)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        setProduct(data)
+                    }).catch(err => {
+                    setError(err);
+                }).finally(() => {
+                    loadProd = false
+                    setLoading(loadProd || loadTag)
+                });
+                fetch('https://ultimate-ecommerce.v-query.com/api/service-product/tag')
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        setTags(data)
+                }).catch(err => {
+                    setError(err);
+                })
+                    .finally(() => {
+                        loadTag = false
+                        setLoading(loadProd || loadTag)
+                    });
+                } , [products])
+
+    if (loading) {
+        return LoadingPage
+    }
+    if (error) {
+        return <div>
+            <h2>{error}</h2>
+        </div>
+    }
     if (!product) {
         return NotFountPage
     }
@@ -127,7 +176,7 @@ export const ProductPage = (props) => {
         </div>
     );
 
-    const routes = tagTree(product.tag)
+    const routes = tagTree(product.tag, tagSample)
     return <PageHeader
         className="site-page-header-responsive"
         onBack={() => navigate("/products")}
