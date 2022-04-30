@@ -1,24 +1,18 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useNavigate, useParams } from "react-router-dom";
-import { useProducts } from '../hooks/UseProducts';
+import { getProductDetailsPath } from '../apiPaths';
+import { useFetch } from '../hooks/UseFetch';
 
 export const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate()
 
-    const { get } = useProducts()
+    const { responseData: product } = useFetch({
+        url: getProductDetailsPath(params.usin)
+    })
 
-    const product = useMemo(
-        () => {
-            return get(params.usin) || null
-        }, 
-        [params]
-    )
-
-    if (product === null) {
-        return <div>
-            404 Product not found
-        </div>
+    if (!product) {
+        return null
     }
  
     return (

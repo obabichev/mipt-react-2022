@@ -1,9 +1,18 @@
 import { ProductForm } from "./ProductForm"
 import { v4 as uuidv4 } from 'uuid';
-import { useProducts } from "../hooks/UseProducts";
 import { useNavigate } from "react-router-dom";
+import { useFetch } from "../hooks/UseFetch";
+import { createProductPath } from "../apiPaths";
 
 export const CreateProductPage = () => {
+    const { fetch } = useFetch({
+        url: createProductPath,
+        lazy: true,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post'
+    })
     const defaultValues = {
         usin: '',
         title: '',
@@ -25,17 +34,17 @@ export const CreateProductPage = () => {
 
     const navigate = useNavigate()
 
-    const { add } = useProducts()
-
-    const handleSubmit = (values) => {
-        const uuid = uuidv4()
+    const handleSubmit = async (values) => {
         const newProduct = {
             ...values,
-            usin: uuid,
         }
-        add(newProduct)
 
-        navigate(`/products/${uuid}`)
+        const { usin } = await fetch({
+            data: newProduct,
+        })
+        
+
+        navigate(`/products/${usin}`)
     }
 
     return (

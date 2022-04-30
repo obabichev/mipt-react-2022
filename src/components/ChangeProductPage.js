@@ -1,32 +1,31 @@
 import { ProductForm } from "./ProductForm"
-import { useProducts } from "../hooks/UseProducts";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMemo } from "react";
+import { useFetch } from "../hooks/UseFetch";
+import { editProductPath, getProductDetailsPath } from "../apiPaths";
 
 export const ChangeProductPage = () => {
     const params = useParams();
     const navigate = useNavigate()
 
-    const { edit, get } = useProducts()
+    const { fetch }= useFetch({
+        url: editProductPath,
+        method: 'put',
+        lazy: true,
+    })
+    
+    const { responseData: product }= useFetch({
+        url: getProductDetailsPath(params.usin),
+    })
 
-    const product = useMemo(
-        () => {
-            return get(params.usin) || null
-        }, 
-        [params]
-    )
-
-    const handleSubmit = (values) => {
-        console.log(values)
-        edit(values)
-
-        navigate(`/products/${values.usin}`)
+    const handleSubmit = async (values) => {
+        const { usin } = await fetch({
+            data: values
+        })
+        navigate(`/products/${usin}`)
     }
 
-    if (product === null) {
-        return <div>
-            404 Product not found
-        </div>
+    if (!product) {
+        return null
     }
  
     return (

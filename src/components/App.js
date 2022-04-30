@@ -1,23 +1,22 @@
 import { AppRouter } from "./AppRouter"
-import sample from "../mock/products-sample.json";
-import { useState } from "react";
-import { ProductsContext } from "../contexts";
+import {ToastContainer} from 'react-toastify'
+import { LoadingContext } from "../contexts"
+import { useState } from "react"
+import { LoadingIndicator } from "./LoadingIndicator"
 
 const App = () => {
-    const [products, setProducts] = useState(() => {
-        const storedProducts = JSON.parse(localStorage.getItem('products'))
-        if (!storedProducts) {
-            localStorage.setItem('products', JSON.stringify(sample.products))
-            return sample.products
-        }
+    const [loadingRequests, setLoadingRequests] = useState(0)
 
-        return storedProducts
-    })
-
+    const incrementLoadingRequest = () => setLoadingRequests(i => i + 1)
+    const decrementLoadingRequest = () => setLoadingRequests(i => i - 1)
     return (
-        <ProductsContext.Provider value={[products, setProducts]}>
-            <AppRouter />
-        </ProductsContext.Provider>
+        <>
+            <LoadingContext.Provider value={{incrementLoadingRequest, decrementLoadingRequest, loadingRequests}}>
+                <LoadingIndicator />
+                <ToastContainer/>
+                <AppRouter />
+            </LoadingContext.Provider>
+        </>
     )
 }
 

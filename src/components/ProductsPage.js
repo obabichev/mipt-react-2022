@@ -1,10 +1,15 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ProductsSearch } from "./ProductsSearch";
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useProducts } from '../hooks/UseProducts';
+import { useFetch } from '../hooks/UseFetch';
+import { getFindProductPath } from '../apiPaths';
+import { toast } from 'react-toastify';
 
 export const ProductsPage = () => {
-    const { products } = useProducts()
+    const { fetch, responseData: products } = useFetch({
+        url: getFindProductPath(),
+        lazy: true,
+    })
 
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
@@ -12,7 +17,11 @@ export const ProductsPage = () => {
     const handleSearchChange = (event) => {
         const inputString = event.target.value
 
-        setSearchParams({search: inputString})
+        setSearchParams({...Object.fromEntries(searchParams), search: inputString})
+    }
+    const handleTagChange = (event) => {
+        const tag = event.target.value
+        setSearchParams({...Object.fromEntries(searchParams), tag: tag == 0 ? '' : tag})
     }
     const handleProductClick = (usin) => {
         navigate(`/products/${usin}`)
@@ -26,22 +35,24 @@ export const ProductsPage = () => {
         return searchParams.get("search") || ''
     }, [searchParams])
 
-    const filteredProducts = useMemo(() => {
-        return search
-        ? products.filter(({title, description}) => {
-            const titleLowerCase = title.toLowerCase()
-            const descriptionLowerCase = description.toLowerCase()
-            const searchLowerCase = search.toLowerCase()
-            return titleLowerCase.includes(searchLowerCase) || descriptionLowerCase.includes(searchLowerCase)
-        })
-        : products
-    },
-    [search, products])
+    
+    const tag = useMemo(() => {
+        const tag = searchParams.get("tag")
+        if (tag === 0) {
+            return ''
+        }
+
+        return tag
+    }, [searchParams])
+
+    useEffect(() => {
+        fetch({url: getFindProductPath(tag, search)})
+    }, [search, tag])
 
     return <div>
-        <ProductsSearch search={search} onChange={handleSearchChange} />
+        <ProductsSearch search={search} onSearchChange={handleSearchChange} onTagChange={handleTagChange} />
         <button type="button" onClick={handleNewProductButtonClick}>New product</button>
-        {filteredProducts.map(({ title, usin }) =>
+        {products && products.map(({ title, usin }) =>
             <div
                 key={usin}
                 onClick={() => handleProductClick(usin)}
