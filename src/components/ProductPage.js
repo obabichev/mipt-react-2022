@@ -1,22 +1,34 @@
-import React from 'react';
+import {React, useCallback} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import "../css/ProductPage.css"
 import Button from 'react-bootstrap/Button'
-import {ProductsData} from "./storage/ProductsData.js"
+import {useLoading, getProduct} from './server/request';
 
 export const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate()
-    const productsData = new ProductsData();
 
-    const product = productsData.get().find(p => p.usin === params.usin);
+    const getProductData = useCallback(
+        () => getProduct(params.usin),
+        [params.usin]
+    )
+    const productResponse = useLoading(getProductData);
+    
+    if (productResponse.error) {
+        return <div>Error loading product! ({productResponse.error.message})</div>;
+    }
 
-    if (!product) {
+    if (productResponse.loading) {
+        return <div>Loading product...</div>
+    }
+
+    if (!productResponse.data) {
         return <div>
             404 Product not found
         </div>
     }
 
+    const product = productResponse.data
     return <div class='main-container'>
         <img height={320} src={product.images[0]}/>
         <div>

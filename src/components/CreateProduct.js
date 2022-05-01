@@ -1,42 +1,66 @@
-import React from 'react';
+import {React, useCallback} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import Button from 'react-bootstrap/Button'
 import { Formik, Field, Form, FieldArray } from 'formik';
 import "../css/CreateProduct.css"
-import {ProductsData} from "./storage/ProductsData.js"
-
+import {useLoading, getProduct, updateProduct} from './server/request';
 import tags from '../mock/tags-sample.json'
 
 export const CreateProduct = () => {
   const params = useParams()
   const navigate = useNavigate()
-  let productsData = new ProductsData()
-  let initProduct = params.usin === undefined ? {
-    usin: Date.now().toString(),
-    title: "",
-    description: "",
-    images: [], 
-    tag: "", 
-    attributes:{
-        "isbn-10": "",
-        "author": "",
-        "publisher": "",
-        "paperback": "",
-        "language": "",
-        "isbn-13": "",
-        "dimensions": ""
-    }, 
-    sellOptions: [], 
-    ratings:[]
-} : productsData.get().find(p => p.usin === params.usin);
+  const getProductData = useLoading(useCallback(
+    () => getProduct(params.usin),
+    [params.usin]
+))
+  let initProduct
+  if (params.usin === undefined) {
+    initProduct = {
+        usin: Date.now().toString(),
+        title: "",
+        description: "",
+        images: [], 
+        tag: "", 
+        attributes:{
+            "isbn-10": "",
+            "author": "",
+            "publisher": "",
+            "paperback": "",
+            "language": "",
+            "isbn-13": "",
+            "dimensions": ""
+        }, 
+        sellOptions: [], 
+        ratings:[]}
+} else {
+    const productResponse = getProductData;
+    
+    if (productResponse.error) {
+        return <div>Error loading product data ({productResponse.error.message})</div>;
+    }
+
+    if (productResponse.loading) {
+        return <div>Loading product data...</div>
+    }
+
+    if (!productResponse.data) {
+        return <div>
+            404 Product not found
+        </div>
+    }
+
+    initProduct = productResponse.data
+} 
 
   return <div className='main-form-container'>
     <h3>Create new product</h3>
     <Formik
       initialValues={initProduct}
       onSubmit={async (values) => {
-        productsData.add(values)
-        navigate(`/product/${values.usin}`)
+        updateProduct(values, params.usin)
+        .then(response => {
+            navigate(`/product/${response.usin}`)
+        })
       }}
     >
     {({ values }) => (
