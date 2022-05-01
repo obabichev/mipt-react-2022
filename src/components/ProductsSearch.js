@@ -1,14 +1,23 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Typography, List, Avatar} from "antd";
-import {useLocalStorage} from "../utils";
+import {DataModel} from "./DataModel.tsx";
 
 const { Text } = Typography;
 
 export const ProductsSearch = () => {
-    const [productList, setProductList ]= useLocalStorage()
+    //const [productList, setProductList ]= useLocalStorage()
 
     const [text, setText] = useState("")
     const [listVisible, setListVisible] = useState(false)
+    const [productList, setProductList] = useState([])
+    useEffect(() =>{
+        DataModel.getProductList('', text)
+            .then(products => {
+                setProductList(products);
+            })
+            .catch(err => console.error(err))
+    }, [text])
+
     console.log(text !== "")
     if (listVisible !== (text !== "")) {
         setListVisible(text !== "")
@@ -30,7 +39,7 @@ export const ProductsSearch = () => {
                 backgroundColor: 'white'}
         }
             itemLayout="horizontal"
-            dataSource={productList.filter(product => product.title.toLowerCase().includes(text))}
+            dataSource={productList}
             renderItem={item => (
                 <List.Item>
                     <List.Item.Meta

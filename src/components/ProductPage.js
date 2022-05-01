@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import tagSample from "../mock/tags-sample.json";
+import React, {useEffect, useState} from 'react';
 import {useParams, Link} from "react-router-dom";
-import {Result, Button, Space, Image, Card, Typography, Rate, Popover, Progress, Breadcrumb} from 'antd';
+import {Result, Button, Space, Image, Card, Typography, Rate, Popover, Progress, Breadcrumb, Spin} from 'antd';
 import Icon, { BarcodeOutlined, IdcardOutlined, CopyOutlined,  BookOutlined, TranslationOutlined, FieldNumberOutlined, FullscreenOutlined } from '@ant-design/icons';
-import {useLocalStorage, findTag} from "../utils";
+import {findTag, emptyProduct} from "../utils";
 import {ProductForm} from "./ProductForm";
+import { DataModel } from "./DataModel.tsx"
 const { Title } = Typography;
 
 
@@ -12,7 +12,6 @@ const { Title } = Typography;
 export const ProductPage = () => {
 
     const [editFormVisible, setEditFormVisible] = useState(false)
-    const [productList, setProductList ] = useLocalStorage();
 
     const params = useParams();
 
@@ -25,9 +24,16 @@ export const ProductPage = () => {
         "isbn-13": FieldNumberOutlined,
         "dimensions": FullscreenOutlined
     }
-
-    let product = productList.find(p => p.usin === params.usin);
-
+    const [dataLoaded, setDataLoaded] = useState(false)
+    const [product, setProduct] = useState(emptyProduct)
+    useEffect(() =>{
+        DataModel.getProduct(params.usin)
+            .then(product => {
+                setProduct(product);
+                setDataLoaded(true);
+            })
+            .catch(err => console.error(err))
+    }, [params.usin])
 
     if (!product) {
         return <Result
@@ -70,7 +76,7 @@ export const ProductPage = () => {
     }
 
     const deleteProduct = (usin) => {
-        setProductList(productList.filter(product => product.usin !== usin ))
+        console.log("Here was an attempt to delete product #"+usin)
     }
 
     return  <>
@@ -78,6 +84,7 @@ export const ProductPage = () => {
         {tags !== null && <Breadcrumb style={{marginBottom: 15}}>
             {tags.map(tag => <Breadcrumb.Item>{tag}</Breadcrumb.Item>)}
         </Breadcrumb>}
+        {dataLoaded === true ?
         <Space align="start">
             <Space direction="vertical" align="center">
                 <Image
@@ -123,6 +130,6 @@ export const ProductPage = () => {
                 </Space>
             </Card>
             </div>
-        </Space>
+        </Space> : <Space style={{width: "100%"}} direction="vertical" align="center"> <Spin size="large" tip="Loading..." /> </Space>}
     </>
 }

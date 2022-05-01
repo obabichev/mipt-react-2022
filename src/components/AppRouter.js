@@ -31,6 +31,7 @@ const AppRouter = () => {
             </Header>
             <Layout>
                 <Sider width={180} className="site-layout-background" theme="light">
+                    <Button style={{width: "100%"}} onClick={()=>{window.location='/products/all';}}>Home</Button>
                     <TagTree/>
                 </Sider>
                 <Content  style={{
@@ -40,12 +41,12 @@ const AppRouter = () => {
                 }}>
                     <BrowserRouter>
                         <Routes>
-                            <Route path="/products" element={<ProductsPage/>}/>
+                            <Route path="/products/:tag" element={<ProductsPage/>}/>
                             <Route path="/product/:usin" element={<ProductPage/>}/>
                             <Route path="/test" element={<Test/>}/>
                             <Route path="/lst" element={<LocalStorageTest/>}/>
                             <Route path="/uit" element={<UseIntervalTest/>}/>
-                            <Route exact path="/" element={<Navigate replace to="/products" />} />
+                            <Route exact path="/" element={<Navigate replace to="/products/all" />} />
                         </Routes>
                     </BrowserRouter>
                 </Content>

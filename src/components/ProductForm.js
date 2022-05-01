@@ -1,54 +1,39 @@
 import {Modal, Form, Input, Button, Select, Divider, Typography, Space} from "antd";
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import {v4 as uuid} from 'uuid';
-import {useLocalStorage} from "../utils";
+import {emptyProduct} from "../utils";
+import {DataModel} from "./DataModel.tsx";
 
 const { Option } = Select
 
-const emptyProduct = {
-    usin: uuid(),
-    title: "",
-    description: "",
-    images: [],
-    tag: "books",
-    attributes:{
-        "isbn-10": "",
-        "author": "",
-        "publisher": "",
-        "paperback": "",
-        "language": "",
-        "isbn-13": "",
-        "dimensions": ""
-    },
-    sellOptions: [
-        {
-            "price": 0,
-            "currency": "EUR",
-            "type": "Paperback"
-        }
-    ],
-    ratings:[]
-}
-
 export const ProductForm = (props) => {
-    const [productList, setProductList ] = useLocalStorage();
     const [form] = Form.useForm();
     const productExists = props.product !== undefined
+    let ratings = []
     if (productExists) {
         form.setFieldsValue(props.product);
+        ratings = props.product.ratings
     } else {
         form.setFieldsValue(emptyProduct);
     }
 
     const saveProduct = (values) => {
+        values.ratings = ratings;
         console.log(values)
         if (productExists) {
-            setProductList(productList.map((product) => product.usin === values.usin ? {...product, ...values} : product));
-            props.close_form()
+            DataModel.updateProduct(values)
+                .then(response => {
+                    window.location = '/product/'+response.usin;
+                })
+                .catch(err => console.error(err));
         } else {
-            setProductList([...productList, {...values }])
-            props.close_form()
+            delete values['usin'];
+            DataModel.createProduct(values)
+                .then(response => {
+                    window.location = '/product/'+response.usin;
+                })
+                .catch(err => console.error(err));
         }
+        props.close_form()
     }
 
     return <Modal visible={props.formVisible} onOk={() => {saveProduct(form.getFieldsValue())}} onCancel={() => {props.close_form()}}
