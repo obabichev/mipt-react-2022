@@ -1,43 +1,35 @@
-import React from 'react';
-import {Card, Col, Image, Row, Typography, Rate} from 'antd';
-import sample from "../mock/products-sample.json";
-import {countProductMetrics} from "../utils";
-
-const {Title, Link, Text, Paragraph} = Typography;
-
-
-const ProductCard = (props) => {
-    const product = props.prod;
-    const [count, sum] = countProductMetrics(product);
-
-    return <Card style={{width: 800, margin: 20}}>
-        <>
-            <Row>
-                <Col span={6}>
-                    <Image align="left" src={product.images[0]} width={200} height={200}/>
-                </Col>
-                <Col span={17} offset={1}>
-                    <Title level={4}>
-                        <Link href={`/product/${product.usin}`}>{product.title}</Link>
-                    </Title>
-                    <Paragraph>
-                        <Text>Автор: {product.attributes.author}</Text>
-                    </Paragraph>
-                    <p>
-                        Рейтинг: {(sum / count).toFixed(2)} / 5
-                    </p>
-                    <p>
-                        Количество: {count}
-                    </p>
-                </Col>
-            </Row>
-        </>
-    </Card>;
-}
+import React, {useState, useCallback} from 'react';
+import {useNavigate} from "react-router-dom";
+import {ProductsSearch} from "./ProductsSearch";
+import ListGroup from 'react-bootstrap/ListGroup'
+import Button from 'react-bootstrap/Button'
+import {useLoading, getProducts} from '../url/ServerRequest.js';
 
 export const ProductsPage = () => {
-    document.title = 'Продукты';
-    return <div>
-        {sample.products.map(product => <ProductCard prod={product}/>)}
+    const navigate = useNavigate()
+    const [searchText, setSearchText] = useState("")
+    const handleTextToParent = (text) => {
+        setSearchText(text)
+    }
+
+    const getFilteredProducts = useCallback(
+        () => getProducts(searchText),
+        [searchText]
+    )
+    const productsResponse = useLoading(getFilteredProducts);
+    return <div style={{padding: 10, margin: 10}}>
+        <ProductsSearch handleTextToParent={handleTextToParent}/>
+        {productsResponse.loading && <div>Loading products...</div>}
+        {productsResponse.error && <div>Error loading products! ({productsResponse.error.message})</div>}
+        {
+            productsResponse.data &&
+            <ListGroup style={{color: "blue"}}>
+                {productsResponse.data.map(product =>
+                    <ListGroup.Item key={product.usin} onClick={() => navigate(`/product/${product.usin}`)}>
+                    {product.title}
+                </ListGroup.Item>)}
+            </ListGroup>
+        }
+        <Button style={{width: "15%", marginTop: "1%"}} variant="outline-dark" size="med" onClick={() => navigate("/create_product")}>Create product</Button>
     </div>;
 }

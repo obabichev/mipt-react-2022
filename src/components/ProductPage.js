@@ -1,29 +1,56 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import sample from "../mock/products-sample.json";
+import "../cssClasses/ProductPage.css"
+import Button from 'react-bootstrap/Button'
+import {useLoading, getProduct} from '../url/ServerRequest';
 
 export const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate()
-    const product = sample.products.find(p => p.usin === params.usin);
-    if (!product) {
+
+    const getProductData = useCallback(
+        () => getProduct(params.usin),
+        [params.usin]
+    )
+    const productResponse = useLoading(getProductData);
+
+    if (productResponse.loading) {
         return <div>
-            404 Product not found
+            Loading product...
         </div>
     }
 
-    return <div>
-        <div>
-            <b>
-                {product.title}
-            </b>
-        </div>
-        <p>
-            <img height={200} src={product.images[0]} alt={""} align="top"/>
-        </p>
-        {product.description}
+    if (productResponse.error) {
+        return <div>
+            Error loading product! ({productResponse.error.message})
+        </div>;
+    }
 
-        <p/>
-        <button onClick={() => navigate("/products")}>Back to product page</button>
+    if (!productResponse.data) {
+        return <div>
+            404 Not Found
+        </div>
+    }
+    const product = productResponse.data
+    return <div class='main-container'>
+        <img height={320} src={product.images[0]} alt=""/>
+        <div>
+            <div class='product-description-box'>
+                <div style={{margin: "1.5%"}}>
+                    <b>
+                        {product.title}
+                    </b>
+                </div>
+                <div style={{margin: "1.5%"}}>
+                    {product.description}
+                </div>
+                <div style={{alignItems: "left", margin: "1.5%"}}>
+                <Button style={{width: "20%", marginBottom: "0.5%", justifyContent: "left"}} variant="outline-dark" size="lg" onClick={() => navigate("/products")}>Back</Button>
+                </div>
+                <div style={{alignItems: "left", margin: "1.5%", marginTop: "-1.5%"}}>
+                <Button style={{width: "20%", marginBottom: "0.5%", justifyContent: "left"}} variant="outline-dark" size="lg" onClick={() => navigate(`/create_product/${params.usin}`)}>Edit</Button>
+                </div>
+            </div>
+        </div>
     </div>
 }
