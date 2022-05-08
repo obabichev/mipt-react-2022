@@ -6,6 +6,7 @@ import react.dom.html.ReactHTML.h2
 import react.dom.html.ReactHTML.p
 import react.dom.html.ReactHTML.link
 
+
 val Index = FC<Props> {
     h1 {
         +"Это тестовое приложение на React"

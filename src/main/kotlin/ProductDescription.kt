@@ -39,6 +39,7 @@ fun getMarks(Product : Product) : Pair<Long, Long> {
 }
 
 val ProductDescription = FC<ProductProps> { _ ->
+    console.log(productList.size)
     var Product = useLocation().pathname
     Product = Product.subSequence(1, Product.length).toString()
     var data = inMemoryData(Product)

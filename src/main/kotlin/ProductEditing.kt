@@ -1,35 +1,65 @@
 import csstype.Position
 import csstype.px
+import kotlinx.browser.window
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.await
+import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.w3c.dom.HTMLInputElement
+import org.w3c.fetch.Headers
+import org.w3c.fetch.RequestInit
 import react.FC
 import react.css.css
 import react.dom.html.ReactHTML
 import react.router.useLocation
 import react.useState
 
+suspend fun editData(body : String) : String {
+    val headers = Headers()
+    headers.append("Content-Type", "application/json")
+    val requestParams = RequestInit(method = "PUT", body = body, headers = headers)
+    val adding = window.fetch("https://ultimate-ecommerce.v-query.com/api/service-boarding/boarding", requestParams)
+        .await()
+        .text()
+        .await()
+    return adding
+}
+
 val ProductEditing = FC<ProductProps> { _ ->
+    console.log(productList.size)
     var product = useLocation().pathname
     product = product.subSequence(18, product.length).toString()
 
     var data = productList.filter { it.usin == product }[0]
 
-    var (_title, _setTitle) = useState<String>("")
-    var (author, setAuthor) = useState<String>("")
-    var (isbn10, setIsbn10) = useState<String>("")
-    var (isb13, setIsbn13) = useState<String>("")
-    var (language, setLanguage) = useState<String>("")
-    var (dementions, setDementions) = useState<String>("")
-    var (imageUrl, setImageurl) = useState<String>("")
-    var (publisher, setPublisher) = useState<String>("")
-    var (paperback, setPaperback) = useState<String>("")
-    var (audiobookPrice, setAudiobookPrice) = useState<Int>(0)
-    var (paperbackPrice, setPaperbackPrice) = useState<Int>(0)
+    var (_title, _setTitle) = useState("")
+    var (author, setAuthor) = useState("")
+    var (isbn10, setIsbn10) = useState("")
+    var (isb13, setIsbn13) = useState("")
+    var (language, setLanguage) = useState("")
+    var (dementions, setDementions) = useState("")
+    var (imageUrl, setImageurl) = useState("")
+    var (publisher, setPublisher) = useState("")
+    var (paperback, setPaperback) = useState("")
+    var (audiobookPrice, setAudiobookPrice) = useState(0)
+    var (paperbackPrice, setPaperbackPrice) = useState(0)
 
+    var (h1, seth1) = useState("Редактирование продукта")
+    var (h2, seth2) = useState("Пожалуйста, заполните форму")
+
+
+    ReactHTML.h1 {
+        +h1
+    }
+    ReactHTML.h2 {
+        +h2
+    }
 
     ReactHTML.div {
         css {
             position = Position.absolute
-            top = 10.px
+            top = 210.px
             left = 250.px
         }
         ReactHTML.img {
@@ -172,16 +202,25 @@ val ProductEditing = FC<ProductProps> { _ ->
             left = 750.px
         }
         onClick = {
-            productList.remove(data)
-            productList.add(Product(data.usin,
+            val format = Json { prettyPrint = true }
+            val mainScope = MainScope()
+            val product = Product(data.usin,
                 _title,
                 data.description,
                 Attributes(isbn10, author, publisher,
                     paperback, isb13, language, dementions), listOf(imageUrl),
                 data.ratings, listOf(SellOption(audiobookPrice, "EUR", "Audiobook"),
                     SellOption(paperbackPrice, "EUR", "Paperback")), data.tag
-            ))
-            console.log(productList.size)
+            )
+            val requestBody = format.encodeToString(product)
+            console.log(requestBody)
+            mainScope.launch {
+                val response = editData(requestBody)
+                if (response.contains("error")) {
+                    seth1("Обнаружена ошибка!")
+                    seth2("${response}")
+                }
+            }
             console.log("Product was edited")
         }
         +"Edit"
