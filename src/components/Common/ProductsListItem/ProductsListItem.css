@@ -1,0 +1,18 @@
+.products-list-item h2 {
+    font-size: 1.2rem;
+}
+
+.products-list-item {
+    margin: 0.1%;
+    padding: 1%;
+    border: 0.1em solid blue;
+}
+
+.products-list-item__title>a {
+    text-decoration: none;
+    color: black;
+}
+
+.products-list-item__title>a:hover {
+    color: orangered;
+}

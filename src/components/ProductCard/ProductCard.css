@@ -1,0 +1,7 @@
+.product-card {
+    margin-top: 1%;
+}
+
+.product-details-table>tbody>tr>td::first-letter {
+    text-transform: capitalize;
+}
